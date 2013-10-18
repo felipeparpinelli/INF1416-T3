@@ -63,7 +63,7 @@ public class UserRegistrationPanel extends JPanel implements ActionListener{
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet..."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
