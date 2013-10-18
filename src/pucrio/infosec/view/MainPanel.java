@@ -57,7 +57,7 @@ public class MainPanel extends JPanel implements ActionListener{
         
         if(loginController.checkLogin(this) == true)
         {
-            PwdPanel pwdPanel = new PwdPanel();
+            PwdPanel pwdPanel = new PwdPanel(mainFrame);
             
             mainFrame.setContentPane(pwdPanel);
             mainFrame.repaint();
