@@ -17,7 +17,7 @@ public class LoggerFrame extends JFrame{
     
     public LoggerFrame ()
     {
-        this.setTitle("Logger View");
+        this.setTitle("LogView");
         this.setLocation(580, 200);
         this.setSize(400, 500);    
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
