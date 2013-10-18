@@ -92,7 +92,23 @@ public class PwdPanel extends JPanel implements ActionListener {
                 buttons[count].setEnabled(false);
             
             PwdController pwdController = new PwdController(pwdArray);
-            pwdController.checkPwd();
+            boolean checkPwd = pwdController.checkPwd();
+            
+            if(checkPwd == true)
+            {
+                TanListPanel tanPanel = new TanListPanel(mainFrame);
+                
+                mainFrame.setContentPane(tanPanel);
+                mainFrame.repaint();
+                mainFrame.validate();
+            }
+            else
+            {
+                PwdPanel pwdPanel = new PwdPanel(mainFrame);
+                mainFrame.setContentPane(pwdPanel);
+                mainFrame.repaint();
+                mainFrame.validate();
+            }
         }
     }
 
