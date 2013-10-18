@@ -75,8 +75,6 @@ public class PwdPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {       
         
-        PwdController pwdController = new PwdController(e.getActionCommand());
-        
         this.clickCount++;
         this.pwdField.setText(pwdField.getText() + "*");
         pwdArray.add(e.getActionCommand());
@@ -90,9 +88,11 @@ public class PwdPanel extends JPanel implements ActionListener {
         }
         
         if (clickCount > 5) {
-            for (int count = 0; count < 5; count++) {
-            buttons[count].setEnabled(false);
-            }
+            for (int count = 0; count < 5; count++)
+                buttons[count].setEnabled(false);
+            
+            PwdController pwdController = new PwdController(pwdArray);
+            pwdController.checkPwd();
         }
     }
 

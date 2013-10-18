@@ -4,10 +4,8 @@
  */
 package pucrio.infosec.controller;
 
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
-import pucrio.infosec.view.PwdPanel;
 
 /**
  *
@@ -15,14 +13,30 @@ import pucrio.infosec.view.PwdPanel;
  */
 public class PwdController {
     
-    public PwdController (String pwd)
+    List<String> pwdListReceived = new ArrayList<>();
+    List<String> pwdList = new ArrayList<>();
+    
+    public PwdController (List<String> pwdList)
     {
-        
+        this.pwdListReceived = pwdList;
     }
 
-    public boolean checkPwd(PwdPanel panel) {
-        System.out.println("pwd controller!");
+    public boolean checkPwd() {
+        
+        convertListReceived();
         return true;
+    }
+    
+    public List<String> convertListReceived ()
+    {
+        for (String pwd:pwdListReceived)
+        {
+            String[] splitString = (pwd.split(" ou "));
+            pwdList.add(splitString[0]);
+            pwdList.add(splitString[1]);
+        }
+        
+        return pwdList;
     }
     
 }
