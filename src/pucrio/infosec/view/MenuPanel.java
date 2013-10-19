@@ -89,6 +89,16 @@ public class MenuPanel extends JPanel implements ActionListener{
                 mainFrame.validate();
                 break;
             case "Consultar pasta de arquivos secretos de um usuario":
+                SearchFolderPanel searchFolderPanel = new SearchFolderPanel(mainFrame);
+                mainFrame.setContentPane(searchFolderPanel);
+                mainFrame.repaint();
+                mainFrame.validate();
+                break;
+            case "Sair do Sistema":
+                ExitPanel exitPanel = new ExitPanel(mainFrame);
+                mainFrame.setContentPane(exitPanel);
+                mainFrame.repaint();
+                mainFrame.validate();
                 break;
             default:
                 break;

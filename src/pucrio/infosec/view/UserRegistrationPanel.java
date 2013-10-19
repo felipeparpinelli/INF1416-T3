@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import pucrio.infosec.model.Group;
 
 /**
  *
@@ -50,7 +51,7 @@ public class UserRegistrationPanel extends JPanel implements ActionListener{
     private JButton regButton;
     private JButton backButton;
     
-    String[] Groups = {"Selecione", "Administrator", "User"};
+    String[] Groups = {"Selecione", Group.ADMINISTRATOR.toString(), Group.USER.toString()};
     
     public UserRegistrationPanel (JFrame mainFrame)
     {

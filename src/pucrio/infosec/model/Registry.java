@@ -10,13 +10,11 @@ import java.util.Date;
  *
  * @author Felipe
  */
-public class Register {
-    
-    private long id;
+public class Registry {
 		
     private Date date;
     
-    private String arquivo;
+    private String file;
     
     private User userId;
     
