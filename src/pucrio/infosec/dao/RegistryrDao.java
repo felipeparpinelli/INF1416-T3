@@ -35,15 +35,24 @@ public class RegistryrDao {
     }
     
     public static void storeRegistry (int messageId){
-        RegistryrDao.storeRegistry(messageId, null);       
+        RegistryrDao.storeRegistry(messageId, null, null);       
     }
     
-    public static void storeRegistry (int messageId, String arquivo){
+    public static void storeRegistry (int messageId, String data){
+        RegistryrDao.storeRegistry(messageId, data, null);       
+    }
+    
+    public static void storeRegistryWithFile (int messageId, String arquivo){
+        RegistryrDao.storeRegistry(messageId, null, arquivo);
+    }
+    
+    public static void storeRegistry (int messageId, String data, String arquivo){
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session session = sessionFactory.openSession();
         Registry registry = new Registry();
         registry.setDate(new Date());
         registry.setMessageId(messageId);
+        registry.setData(data);
         User user = Auth.getInstance().getCurrentUser();       
         if (user != null)
         {
@@ -54,8 +63,11 @@ public class RegistryrDao {
         {
             registry.setArquivo(arquivo);
         }
-
+        Transaction tx = session.beginTransaction();
         session.save(registry);
-        session.close();      
+        tx.commit();
+        
+        session.close(); 
     }
+    
 }

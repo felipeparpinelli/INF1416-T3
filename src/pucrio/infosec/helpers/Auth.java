@@ -2,6 +2,7 @@ package pucrio.infosec.helpers;
 
 
 import pucrio.infosec.model.User;
+import pucrio.infosec.dao.RegistryrDao;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

@@ -22,12 +22,16 @@ import javax.persistence.Temporal;
 @Entity
 @Table(name="Registros")
 public class Registry implements Serializable{   
-    @Id	
+    
+    @Id 
+    @GeneratedValue (strategy=GenerationType.AUTO)
+    @Column(name = "id")
+    private int id;
+
     @Column(name = "data")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date date;
 
-    @Id
     @Column(name = "mensagem_id")
     private int messageId;
     
@@ -36,6 +40,9 @@ public class Registry implements Serializable{
     
     @Column(name = "arquivo")
     private String arquivo;
+    
+    @Column(name = "dado")
+    private String data;
     
     /**
      * @return the date
@@ -50,7 +57,29 @@ public class Registry implements Serializable{
     public void setDate(Date date) {
         this.date = date;
     }
+    
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     * @param data the date to set
+     */
+    public void setData(String data) {
+        this.data = data;
+    }
+    
+    /**
+     * @return the data
+     */
+    public String getData() {
+        return this.data;
+    }
+    
     /**
      * @return the arquivo
      */
