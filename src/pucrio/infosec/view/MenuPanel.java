@@ -50,8 +50,8 @@ public class MenuPanel extends JPanel implements ActionListener{
         descriptionText = new JLabel("{Descricao}");
         accessText = new JLabel("{Total de acessos do usuario}");
         
-        userRegButton = new JButton("Cadastrar um novo usuário");
-        getUserFolderButton = new JButton("Consultar pasta de arquivos secretos de um usuário");
+        userRegButton = new JButton("Cadastrar um novo usuario");
+        getUserFolderButton = new JButton("Consultar pasta de arquivos secretos de um usuario");
         ExitButton = new JButton("Sair do Sistema");
         
         this.add(loginLabel);
@@ -80,7 +80,20 @@ public class MenuPanel extends JPanel implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        switch (e.getActionCommand()) {
+            case "Cadastrar um novo usuario":
+                UserRegistrationPanel userRegPanel = new UserRegistrationPanel(mainFrame);
+                mainFrame.setContentPane(userRegPanel);
+                mainFrame.repaint();
+                mainFrame.validate();
+                break;
+            case "Consultar pasta de arquivos secretos de um usuario":
+                break;
+            default:
+                break;
+            
+        }
     }
     
 }

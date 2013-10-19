@@ -6,9 +6,12 @@ package pucrio.infosec.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /**
  *
@@ -28,6 +31,27 @@ public class UserRegistrationPanel extends JPanel implements ActionListener{
     private JLabel nameText;
     private JLabel totalUserText;
     
+    private JLabel nameRegLabel;
+    private JLabel loginRegLabel;
+    private JLabel groupRegLabel;
+    private JLabel pwdRegLabel;
+    private JLabel confirmPwdRegLabel;
+    private JLabel pathTanRegLabel;
+    private JLabel lengthTanRegLabel;
+    
+    private JTextField nameRegText;
+    private JTextField loginRegText;
+    private JComboBox groupRegText;
+    private JTextField pwdRegText;
+    private JTextField confirmPwdRegText;
+    private JTextField pathTanRegText;
+    private JTextField lengthTanRegText;
+    
+    private JButton regButton;
+    private JButton backButton;
+    
+    String[] Groups = {"Selecione", "Administrator", "User"};
+    
     public UserRegistrationPanel (JFrame mainFrame)
     {
         this.mainFrame = mainFrame;
@@ -42,28 +66,76 @@ public class UserRegistrationPanel extends JPanel implements ActionListener{
         
         loginText = new JLabel("{login}");
         groupText = new JLabel("{Grupo}");
-        nameText = new JLabel("{Descricao}");
-        totalUserText = new JLabel("{Total de acessos do usuario}");
+        nameText = new JLabel("{Nome}");
+        totalUserText = new JLabel("{Total de usuarios no sistema}");
+        
+        nameRegLabel = new JLabel("Nome do Usuário: ");
+        loginRegLabel = new JLabel("Login Name: ");
+        groupRegLabel = new JLabel("Grupo: ");
+        pwdRegLabel = new JLabel("Senha pessoal: ");
+        confirmPwdRegLabel = new JLabel("Confirmacao da senha pessoal: ");
+        pathTanRegLabel = new JLabel("Caminho da TAN List: ");
+        lengthTanRegLabel = new JLabel("Tamanho da TAN List: ");
+        
+        nameRegText = new JTextField(30);
+        loginRegText = new JTextField(20);
+        groupRegText = new JComboBox(Groups);
+        pwdRegText = new JTextField(6);
+        confirmPwdRegText = new JTextField(6);
+        pathTanRegText = new JTextField(30);
+        lengthTanRegText = new JTextField(2);
+        
+        regButton = new JButton("Cadastrar");
+        regButton.addActionListener(this);
+        backButton = new JButton("Voltar para o menu");
+        backButton.addActionListener(this);
         
         this.add(loginLabel);
         this.add(loginText);
-        
         this.add(groupLabel);
         this.add(groupText);
-        
         this.add(nameLabel);
         this.add(nameText);
-        
         this.add(totalUserLabel);
         this.add(totalUserText);
+        this.add(formLabel);
         
-        this.add(formLabel);  
+        this.add(nameRegLabel);
+        this.add(nameRegText);
+        this.add(loginRegLabel);
+        this.add(loginRegText);
+        this.add(groupRegLabel);
+        this.add(groupRegText);
+        this.add(pwdRegLabel);
+        this.add(pwdRegText);
+        this.add(confirmPwdRegLabel);
+        this.add(confirmPwdRegText);
+        this.add(pathTanRegLabel);
+        this.add(pathTanRegText);
+        this.add(lengthTanRegLabel);
+        this.add(lengthTanRegText);
+        
+        this.add(regButton);
+        this.add(backButton);
         
     }
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet..."); //To change body of generated methods, choose Tools | Templates.
+        switch (e.getActionCommand()) {
+            case "Cadastrar":
+                System.out.println("Cadastar clicado.");
+                break;
+            case "Voltar para o menu":
+                MenuPanel menuPanel = new MenuPanel(mainFrame);
+                mainFrame.setContentPane(menuPanel);
+                mainFrame.repaint();
+                mainFrame.validate();
+                break;
+            default:
+                break;
+            
+        }
     }
     
 }
