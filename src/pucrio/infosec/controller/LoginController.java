@@ -4,10 +4,11 @@
  */
 package pucrio.infosec.controller;
 
+import pucrio.infosec.helpers.Auth;
 import javax.swing.JPanel;
 import pucrio.infosec.dao.*;
 import pucrio.infosec.model.*;
-
+import pucrio.infosec.helpers.Auth;
 /**
  *
  * @author Felipe
@@ -40,7 +41,7 @@ public class LoginController {
                     panel.validate();
 
                 } else {
-                    
+                    Auth.getInstance().setCurrentUser(user);
                     return true;
                     
                 }
