@@ -4,24 +4,39 @@
  */
 package pucrio.infosec.model;
 
+import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 /**
  *
- * @author Felipe
+ * @author arrais
  */
-public class Registry {
-    
-    private long id;
-		
+
+@Entity
+@Table(name="Registros")
+public class Registry implements Serializable{   
+    @Id	
+    @Column(name = "data")
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date date;
+
+    @Id
+    @Column(name = "mensagem_id")
+    private int messageId;
     
-    private String arquivo;
-    
+    @Column(name = "usuario_id")
     private int userId;
     
-    private int messageId;
-
+    @Column(name = "arquivo")
+    private String arquivo;
+    
     /**
      * @return the date
      */

@@ -45,12 +45,12 @@ public class RegistryrDao {
         registry.setDate(new Date());
         registry.setMessageId(messageId);
         User user = Auth.getInstance().getCurrentUser();       
-        if (!user.equals(null))
+        if (user != null)
         {
             registry.setUserId(user.getId());
         }
         
-        if (!arquivo.equals(null))
+        if (arquivo != null)
         {
             registry.setArquivo(arquivo);
         }
