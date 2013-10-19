@@ -21,7 +21,7 @@ import pucrio.infosec.helpers.Auth;
  *
  * @author Arrais
  */
-public class RegisterDao {
+public class RegistryrDao {
     public static Message searchEntriesAfterDate(Date date) {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session session = sessionFactory.openSession();
@@ -35,7 +35,7 @@ public class RegisterDao {
     }
     
     public static void storeRegistry (int messageId){
-        RegisterDao.storeRegistry(messageId, null);       
+        RegistryrDao.storeRegistry(messageId, null);       
     }
     
     public static void storeRegistry (int messageId, String arquivo){
