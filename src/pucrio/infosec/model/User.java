@@ -36,15 +36,15 @@ public class User {
     @Column(name = "pwd")
     private String pwd;
     
+    @Column(name = "salt")
+    private int salt;
+    
     private String confirmPwd;
     
     private String tanPath;
     
     private String tanLength;
-    
-    @Column(name = "salt")
-    private int salt;
-    
+ 
     @Column(name = "accessControl")
     private String accessControl;
     
@@ -89,6 +89,14 @@ public class User {
     public void setPwd(String pwd) {
         this.pwd = pwd;
     }
+    
+    public int getSalt() {
+        return salt;
+    }
+
+    public void setSalt(int salt) {
+        this.salt = salt;
+    }
 
     public String getConfirmPwd() {
         return confirmPwd;
@@ -112,14 +120,6 @@ public class User {
 
     public void setTanLength(String tanLength) {
         this.tanLength = tanLength;
-    }
-
-    public GroupName getGroupName() {
-        return groupName;
-    }
-
-    public void setGroupName(GroupName groupName) {
-        this.groupName = groupName;
     }
 
     public String getAccessControl() {
@@ -146,12 +146,11 @@ public class User {
         this.queriesNumber = queriesNumber;
     }
     
-    public int getSalt() {
-        return salt;
+    public GroupName getGroupName() {
+        return groupName;
     }
 
-    public void setSalt(int salt) {
-        this.salt = salt;
-    } 
-    
+    public void setGroupName(GroupName group) {
+        this.groupName = group;
+    }  
 }

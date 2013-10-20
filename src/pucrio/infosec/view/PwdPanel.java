@@ -27,7 +27,8 @@ public class PwdPanel extends JPanel implements ActionListener {
     private JFrame mainFrame;
     private JLabel pwdField;
     private BorderLayout layout;
-    List<String> pwdArray = new ArrayList<>();
+    String[] pwdArray = new String[12];
+    int idx = 0;
     List<String> pwdList = shuffle();
     int clickCount;
 
@@ -77,7 +78,8 @@ public class PwdPanel extends JPanel implements ActionListener {
         
         this.clickCount++;
         this.pwdField.setText(pwdField.getText() + "*");
-        pwdArray.add(e.getActionCommand());
+        pwdArray[idx] = e.getActionCommand();
+        idx++;
         
         int i = 0;
         this.pwdList = shuffle();
