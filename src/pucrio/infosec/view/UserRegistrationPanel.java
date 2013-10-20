@@ -6,6 +6,9 @@ package pucrio.infosec.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -19,20 +22,18 @@ import pucrio.infosec.model.Group;
  *
  * @author Felipe
  */
-public class UserRegistrationPanel extends JPanel implements ActionListener{
-    
+public class UserRegistrationPanel extends JPanel implements ActionListener {
+
     private JFrame mainFrame;
     private JLabel loginLabel;
     private JLabel groupLabel;
     private JLabel nameLabel;
     private JLabel totalUserLabel;
     private JLabel formLabel;
-    
     private JLabel loginText;
     private JLabel groupText;
     private JLabel nameText;
     private JLabel totalUserText;
-    
     private JLabel nameRegLabel;
     private JLabel loginRegLabel;
     private JLabel groupRegLabel;
@@ -40,7 +41,6 @@ public class UserRegistrationPanel extends JPanel implements ActionListener{
     private JLabel confirmPwdRegLabel;
     private JLabel pathTanRegLabel;
     private JLabel lengthTanRegLabel;
-    
     private JTextField nameRegText;
     private JTextField loginRegText;
     private JComboBox groupRegText;
@@ -48,29 +48,26 @@ public class UserRegistrationPanel extends JPanel implements ActionListener{
     private JTextField confirmPwdRegText;
     private JTextField pathTanRegText;
     private JTextField lengthTanRegText;
-    
     private JButton regButton;
     private JButton backButton;
-    
     String[] Groups = {"Selecione", Group.ADMINISTRATOR.toString(), Group.USER.toString()};
-    
-    public UserRegistrationPanel (JFrame mainFrame)
-    {
+
+    public UserRegistrationPanel(JFrame mainFrame) {
         this.mainFrame = mainFrame;
         this.mainFrame.setSize(500, 500);
         this.mainFrame.validate();
-        
+
         loginLabel = new JLabel("Login: ");
         groupLabel = new JLabel("Grupo: ");
         nameLabel = new JLabel("Nome: ");
         totalUserLabel = new JLabel("Total de usuarios no sistema: ");
         formLabel = new JLabel("Formulario de cadastro: ");
-        
+
         loginText = new JLabel("{login}");
         groupText = new JLabel("{Grupo}");
         nameText = new JLabel("{Nome}");
         totalUserText = new JLabel("{Total de usuarios no sistema}");
-        
+
         nameRegLabel = new JLabel("Nome do Usuário: ");
         loginRegLabel = new JLabel("Login Name: ");
         groupRegLabel = new JLabel("Grupo: ");
@@ -78,7 +75,7 @@ public class UserRegistrationPanel extends JPanel implements ActionListener{
         confirmPwdRegLabel = new JLabel("Confirmacao da senha pessoal: ");
         pathTanRegLabel = new JLabel("Caminho da TAN List: ");
         lengthTanRegLabel = new JLabel("Tamanho da TAN List: ");
-        
+
         nameRegText = new JTextField(30);
         loginRegText = new JTextField(20);
         groupRegText = new JComboBox(Groups);
@@ -86,12 +83,12 @@ public class UserRegistrationPanel extends JPanel implements ActionListener{
         confirmPwdRegText = new JTextField(6);
         pathTanRegText = new JTextField(30);
         lengthTanRegText = new JTextField(2);
-        
+
         regButton = new JButton("Cadastrar");
         regButton.addActionListener(this);
         backButton = new JButton("Voltar para o menu");
         backButton.addActionListener(this);
-        
+
         this.add(loginLabel);
         this.add(loginText);
         this.add(groupLabel);
@@ -101,7 +98,7 @@ public class UserRegistrationPanel extends JPanel implements ActionListener{
         this.add(totalUserLabel);
         this.add(totalUserText);
         this.add(formLabel);
-        
+
         this.add(nameRegLabel);
         this.add(nameRegText);
         this.add(loginRegLabel);
@@ -116,12 +113,12 @@ public class UserRegistrationPanel extends JPanel implements ActionListener{
         this.add(pathTanRegText);
         this.add(lengthTanRegLabel);
         this.add(lengthTanRegText);
-        
+
         this.add(regButton);
         this.add(backButton);
-        
+
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
@@ -129,6 +126,8 @@ public class UserRegistrationPanel extends JPanel implements ActionListener{
                 UserRegistrationController userReg = new UserRegistrationController();
                 userReg.isValidPwd(pwdRegText.getText());
                 userReg.checkLogin(loginRegText.getText());
+                userReg.isEqualPwd(pwdRegText.getText(), confirmPwdRegText.getText());
+                userReg.createTanList(pathTanRegText.getText(), lengthTanRegText.getText(), loginRegText.getText());
                 break;
             case "Voltar para o menu":
                 MenuPanel menuPanel = new MenuPanel(mainFrame);
@@ -138,8 +137,7 @@ public class UserRegistrationPanel extends JPanel implements ActionListener{
                 break;
             default:
                 break;
-            
+
         }
     }
-    
 }
