@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import pucrio.infosec.controller.UserRegistrationController;
 import pucrio.infosec.model.Group;
 
 /**
@@ -125,7 +126,8 @@ public class UserRegistrationPanel extends JPanel implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case "Cadastrar":
-                System.out.println("Cadastar clicado.");
+                UserRegistrationController userReg = new UserRegistrationController();
+                userReg.isValidPwd(pwdRegText.getText());
                 break;
             case "Voltar para o menu":
                 MenuPanel menuPanel = new MenuPanel(mainFrame);
