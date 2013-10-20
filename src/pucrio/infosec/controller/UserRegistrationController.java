@@ -94,7 +94,17 @@ public class UserRegistrationController {
         List<String> oneTimePasswords = createOneTimePasswords();
         try {
             writer = new BufferedWriter(new OutputStreamWriter(
-                    new FileOutputStream(path + "/" + login + ".tan"), "utf-8"));
+                    new FileOutputStream(path + "/" + login + ".tan"), "ASCII"));
+            
+            if (tanLength > 10)
+            {
+                tanLength = 10;
+            }
+            
+            if (tanLength < 1)
+            {
+                tanLength = 1;
+            }
             
             for(int i = 0; i < tanLength; i++)
             {
