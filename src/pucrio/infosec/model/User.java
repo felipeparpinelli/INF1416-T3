@@ -45,8 +45,17 @@ public class User {
     
     private String tanLength;
     
+    @Column(name = "accessControl")
+    private String accessControl;
+    
+    @Column(name = "numberAccesses")
+    private String accessNumber;
+    
+    @Column(name = "numberQueries")
+    private String queriesNumber;
+    
     @Column(name = "groupName")
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private GroupName groupName;
     
     public int getId() {
@@ -113,11 +122,13 @@ public class User {
         this.tanLength = tanLength;
     }
 
-    public GroupName getGroup() {
+
+    public GroupName getGroupName() {
         return groupName;
     }
 
-    public void setGroup(GroupName group) {
+
+    public void setGroupName(GroupName group) {
         this.groupName = group;
     }  
 }
