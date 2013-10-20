@@ -16,5 +16,7 @@ PUBLIC "-//Hibernate/Hibernate Configuration DTD//EN"
         <!-- List of annotated classes -->
         <mapping class="pucrio.infosec.model.User"/>
         <mapping class="pucrio.infosec.model.Registry"/>
+        <mapping class="pucrio.infosec.model.OneTimePassword"/>
+        <mapping class="pucrio.infosec.model.TanList"/>
     </session-factory>
 </hibernate-configuration>

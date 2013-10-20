@@ -14,8 +14,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.swing.JPanel;
+import pucrio.infosec.dao.TanListDao;
 import pucrio.infosec.dao.UserDao;
 import pucrio.infosec.model.GroupName;
+import pucrio.infosec.model.TanList;
 import pucrio.infosec.model.User;
 import static pucrio.infosec.view.PwdPanel.loadPwdList;
 
@@ -90,7 +92,7 @@ public class UserRegistrationController {
         return false;
     }
 
-    public void createTanList(String path, String length, String login) {
+    public void createTanList(String path, String length, String login, int userId) {
         Writer writer = null;
         int tanLength = Integer.parseInt(length);
         List<String> oneTimePasswords = createOneTimePasswords();
@@ -108,9 +110,11 @@ public class UserRegistrationController {
                 tanLength = 1;
             }
             
+            TanList tanList = TanListDao.store(userId);
             for(int i = 0; i < tanLength; i++)
             {
-                writer.write(oneTimePasswords.get(i) + "\n");
+                writer.write(oneTimePasswords.get(i) + "\n");              
+                tanList.addOneTimePassword(oneTimePasswords.get(i), i);
             }
             
         } catch (IOException ex) {

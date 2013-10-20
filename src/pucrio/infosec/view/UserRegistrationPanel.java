@@ -138,10 +138,10 @@ public class UserRegistrationPanel extends JPanel implements ActionListener {
                        user.setGroupName(GroupName.USER);
                     
                     user.setTanPath(pathTanRegText.getText());
-                    user.setTanPath(lengthTanRegText.getText());
+                    user.setTanLength(lengthTanRegText.getText());
                     
-                    userReg.createTanList(pathTanRegText.getText(), lengthTanRegText.getText(), loginRegText.getText());
                     userReg.saveUser(user);
+                    userReg.createTanList(pathTanRegText.getText(), lengthTanRegText.getText(), loginRegText.getText(), user.getId());
                 }
                 else
                 {
