@@ -15,5 +15,6 @@ PUBLIC "-//Hibernate/Hibernate Configuration DTD//EN"
         <property name="hibernate.hbm2ddl.auto">update</property>
         <!-- List of annotated classes -->
         <mapping class="pucrio.infosec.model.User"/>
+        <mapping class="pucrio.infosec.model.Registry"/>
     </session-factory>
 </hibernate-configuration>

@@ -4,10 +4,11 @@
  */
 package pucrio.infosec.controller;
 
+import pucrio.infosec.helpers.Auth;
 import javax.swing.JPanel;
 import pucrio.infosec.dao.*;
 import pucrio.infosec.model.*;
-
+import pucrio.infosec.helpers.Auth;
 /**
  *
  * @author Felipe
@@ -22,7 +23,7 @@ public class LoginController {
     }
 
     public boolean checkLogin(JPanel panel) {
-
+        
         if (login == null || login.isEmpty()) {
             //panel.ErrorMessage("Preencha o login");
             panel.validate();
@@ -30,6 +31,7 @@ public class LoginController {
 
             user = UserDao.searchUser(login);
             if (user == null) {
+                RegistryrDao.storeRegistry(2005, login);
                 //panel.ErrorMessage("Usuario nao encontrado");
                 panel.validate();
             } else {
@@ -40,7 +42,7 @@ public class LoginController {
                     panel.validate();
 
                 } else {
-                    
+                    Auth.getInstance().setCurrentUser(user);
                     return true;
                     
                 }

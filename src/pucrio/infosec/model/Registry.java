@@ -4,20 +4,122 @@
  */
 package pucrio.infosec.model;
 
+import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 /**
  *
- * @author Felipe
+ * @author arrais
  */
-public class Registry {
-		
+
+@Entity
+@Table(name="Registros")
+public class Registry implements Serializable{   
+    
+    @Id 
+    @GeneratedValue (strategy=GenerationType.AUTO)
+    @Column(name = "id")
+    private int id;
+
+    @Column(name = "data")
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date date;
+
+    @Column(name = "mensagem_id")
+    private int messageId;
     
-    private String file;
+    @Column(name = "usuario_id")
+    private int userId;
     
-    private User userId;
+    @Column(name = "arquivo")
+    private String arquivo;
     
-    private Message messageId;
+    @Column(name = "dado")
+    private String data;
+    
+    /**
+     * @return the date
+     */
+    public Date getDate() {
+        return date;
+    }
+
+    /**
+     * @param date the date to set
+     */
+    public void setDate(Date date) {
+        this.date = date;
+    }
+    
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     * @param data the date to set
+     */
+    public void setData(String data) {
+        this.data = data;
+    }
+    
+    /**
+     * @return the data
+     */
+    public String getData() {
+        return this.data;
+    }
+    
+    /**
+     * @return the arquivo
+     */
+    public String getArquivo() {
+        return arquivo;
+    }
+
+    /**
+     * @param arquivo the arquivo to set
+     */
+    public void setArquivo(String arquivo) {
+        this.arquivo = arquivo;
+    }
+
+    /**
+     * @return the userId
+     */
+    public int getUserId() {
+        return userId;
+    }
+
+    /**
+     * @param userId the userId to set
+     */
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    /**
+     * @return the messageId
+     */
+    public int getMessageId() {
+        return messageId;
+    }
+
+    /**
+     * @param messageId the messageId to set
+     */
+    public void setMessageId(int messageId) {
+        this.messageId = messageId;
+    }
     
 }
