@@ -29,7 +29,7 @@ public class Registry implements Serializable{
     private int id;
 
     @Column(name = "data")
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date date;
 
     @Column(name = "mensagem_id")

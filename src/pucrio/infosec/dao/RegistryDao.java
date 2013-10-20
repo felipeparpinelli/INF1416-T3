@@ -6,6 +6,7 @@
 
 package pucrio.infosec.dao;
 
+import java.sql.Time;
 import java.util.Calendar;
 import java.util.Date;
 import org.hibernate.Query;
@@ -50,7 +51,7 @@ public class RegistryDao {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session session = sessionFactory.openSession();
         Registry registry = new Registry();
-        registry.setDate(new Date());
+        registry.setDate(Calendar.getInstance().getTime());
         registry.setMessageId(messageId);
         registry.setData(data);
         User user = Auth.getInstance().getCurrentUser();       

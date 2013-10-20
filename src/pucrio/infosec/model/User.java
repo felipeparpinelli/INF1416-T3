@@ -4,6 +4,8 @@
  */
 package pucrio.infosec.model;
 
+import java.util.Calendar;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -12,6 +14,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Entity;
+import static java.util.concurrent.TimeUnit.*;
+import javax.persistence.Temporal;
+import pucrio.infosec.dao.UserDao;
 
 /**
  *
@@ -38,6 +43,16 @@ public class User {
     
     @Column(name = "salt")
     private int salt;
+    
+    @Column(name = "tentativas_senha")
+    private Integer passwordTries;
+    
+    @Column(name = "bloqueado")
+    private Boolean isBlocked;
+    
+    @Column(name = "data_bloqueio")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date blockDate;
     
     private String confirmPwd;
     
@@ -133,6 +148,22 @@ public class User {
     public String getAccessNumber() {
         return accessNumber;
     }
+    
+    public Integer getpasswordTries(){
+        return this.passwordTries;
+    }
+    
+    public void setpasswordTries(Integer n){
+        this.passwordTries = n;
+    }
+    
+    protected boolean getIsBlocked(){
+        return this.isBlocked;
+    }
+    
+    public void setIsBlocked(boolean n){
+        this.isBlocked = n;
+    }
 
     public void setAccessNumber(String accessNumber) {
         this.accessNumber = accessNumber;
@@ -153,4 +184,68 @@ public class User {
     public void setGroupName(GroupName group) {
         this.groupName = group;
     }  
+
+    public void increasePasswordTries() {
+        this.passwordTries++;
+        if (this.passwordTries >= 3)
+        {
+            this.block();
+        }
+        else{
+            this.update(); 
+        }
+        
+    }
+    
+    public boolean isBlocked() {
+        if(this.isBlocked.equals(true) && !this.canUnblock())
+        {
+            return true;
+        }
+        else
+        {
+            if(this.isBlocked.equals(true) && this.canUnblock())
+            {
+                this.passwordTries = 0;
+                this.unblock();
+            }
+            return false;
+        }
+    }
+
+    private void block() {
+        this.isBlocked = true;
+        this.blockDate = Calendar.getInstance().getTime();
+        this.update();
+    }
+        
+    private boolean canUnblock() {
+        Date now = new Date();
+        
+        long MAX_DURATION = MILLISECONDS.convert(2, MINUTES);
+
+        if (!this.blockDate.equals(null)){
+            long duration = now.getTime() - this.blockDate.getTime();
+
+            if (duration >= MAX_DURATION) {
+                return true;
+            }
+        }
+        
+        return false;
+
+    }
+    
+    private void unblock() {
+        this.isBlocked = false;
+        this.blockDate = null;
+        this.passwordTries = 0;
+        this.update();
+    }
+
+    private void update() {
+        UserDao.updateUser(this);
+    }
+
+
 }

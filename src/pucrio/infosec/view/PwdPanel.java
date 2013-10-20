@@ -15,6 +15,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import pucrio.infosec.controller.PwdController;
+import pucrio.infosec.helpers.Auth;
+import pucrio.infosec.model.User;
 
 /**
  *
@@ -106,10 +108,19 @@ public class PwdPanel extends JPanel implements ActionListener {
             }
             else
             {
-                PwdPanel pwdPanel = new PwdPanel(mainFrame);
-                mainFrame.setContentPane(pwdPanel);
-                mainFrame.repaint();
-                mainFrame.validate();
+                User user = Auth.getInstance().getCurrentUser();
+                if(!user.isBlocked()){
+                    PwdPanel pwdPanel = new PwdPanel(mainFrame);
+                    mainFrame.setContentPane(pwdPanel);
+                    mainFrame.repaint();
+                    mainFrame.validate();
+                }
+                else{
+                    MainPanel mainPanel = new MainPanel(mainFrame);
+                    mainFrame.setContentPane(mainPanel);
+                    mainFrame.repaint();
+                    mainFrame.validate();
+                }
             }
         }
     }

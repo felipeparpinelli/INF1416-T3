@@ -44,6 +44,8 @@ public class UserDao {
         try {
             String pwdHash = Auth.generatePasswordHash(user.getPwd(), salt);
             user.setPwd(pwdHash);
+            user.setpasswordTries(0);
+            user.setIsBlocked(false);
             user.setSalt(salt);
             session.save(user);
             tx.commit();
@@ -53,6 +55,15 @@ public class UserDao {
             Logger.getLogger(UserDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        session.close(); 
+    }
+    
+    public static void updateUser (User user){
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        session.update(user);
+        tx.commit();       
         session.close(); 
     }
 }
