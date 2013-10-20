@@ -10,8 +10,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import pucrio.infosec.dao.UserDao;
 import pucrio.infosec.model.User;
+import static pucrio.infosec.view.PwdPanel.loadPwdList;
 
 /**
  *
@@ -86,11 +90,17 @@ public class UserRegistrationController {
 
     public void createTanList(String path, String length, String login) {
         Writer writer = null;
-
+        int tanLength = Integer.parseInt(length);
+        List<String> oneTimePasswords = createOneTimePasswords();
         try {
             writer = new BufferedWriter(new OutputStreamWriter(
                     new FileOutputStream(path + "/" + login + ".tan"), "utf-8"));
-            writer.write("Teste de escrita na Tan List");
+            
+            for(int i = 0; i < tanLength; i++)
+            {
+                writer.write(oneTimePasswords.get(i) + "\n");
+            }
+            
         } catch (IOException ex) {
 
         } finally {
@@ -99,5 +109,50 @@ public class UserRegistrationController {
             } catch (Exception ex) {
             }
         }
+    }
+    
+    public static List<String> loadTanDigitsList() {
+        List<String> pwdList = new ArrayList<>();
+        pwdList.add("0");
+        pwdList.add("1");
+        pwdList.add("2");
+        pwdList.add("3");
+        pwdList.add("4");
+        pwdList.add("5");
+        pwdList.add("6");
+        pwdList.add("7");
+        pwdList.add("8");
+        pwdList.add("9");
+        pwdList.add("A");
+        pwdList.add("B");
+
+        return pwdList;
+    }
+
+    public static String shuffle() {
+        char[] chars = new char[5];
+        List<String> pwdList = loadTanDigitsList();
+        Collections.shuffle(pwdList);
+
+        for(int i = 0; i < 5; i++)
+        {
+            
+            chars[i] = pwdList.get(i).charAt(0);
+        }
+
+        return new String(chars);
+    }
+    
+    public static List<String> createOneTimePasswords()
+    {
+        List<String> oneTimePasswordsList = new ArrayList<>();
+        String oneTimePassword;
+        
+        for (int i = 0; i < 10; i++)
+        {
+           oneTimePasswordsList.add(shuffle());
+        }
+        
+        return oneTimePasswordsList;
     }
 }
