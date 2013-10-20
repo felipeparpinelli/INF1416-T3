@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import pucrio.infosec.dao.RegistryDao;
 import pucrio.infosec.helpers.Auth;
+import pucrio.infosec.model.User;
 
 /**
  *
@@ -30,7 +31,7 @@ public class PwdController {
 
        String[][] pwdList = convertListReceived();
        
-        String pwd = Auth.getInstance().getCurrentUser().getPwd();
+        User user = Auth.getInstance().getCurrentUser();
         int salt = Auth.getInstance().getCurrentUser().getSalt();
         
         for (int i = 0; i < 2; i++) {
@@ -43,7 +44,7 @@ public class PwdController {
                                                    pwdList[3][l] + pwdList[4][m] + pwdList[5][n] ;
                                 try {
                                     String hash = Auth.generatePasswordHash(candidate, salt);
-                                    if (hash.equals(pwd)) {
+                                    if (hash.equals(user.getPwd())) {
                                         RegistryDao.storeRegistry(3003, Auth.getInstance().getCurrentUser().getLogin());
                                         RegistryDao.storeRegistry(3002, Auth.getInstance().getCurrentUser().getLogin());
                                         return true;
@@ -60,6 +61,7 @@ public class PwdController {
             }
         }
         
+        user.increasePasswordTries();
         return false;
     }
 

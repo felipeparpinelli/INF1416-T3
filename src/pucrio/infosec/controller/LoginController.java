@@ -35,9 +35,8 @@ public class LoginController {
                 //panel.ErrorMessage("Usuario nao encontrado");
                 panel.validate();
             } else {
-                // TODO Verificar se usuário está bloqueado 
-                if (user == null) {
-                    
+                
+                if (user.isBlocked()) {
                     //panel.ErrorMessage("Usuario bloqueado, tente novamente em alguns instantes");
                     panel.validate();
 
