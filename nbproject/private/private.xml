@@ -7,13 +7,18 @@
             <file>file:/C:/Projects/INF1416-T3/src/pucrio/infosec/launch/Main.java</file>
             <file>file:/C:/Projects/INF1416-T3/src/pucrio/infosec/helpers/Auth.java</file>
             <file>file:/C:/Projects/INF1416-T3/src/pucrio/infosec/dao/HibernateUtil.java</file>
-            <file>file:/C:/Projects/INF1416-T3/src/hibernate.cfg.xml</file>
-            <file>file:/C:/Projects/INF1416-T3/src/pucrio/infosec/model/User.java</file>
-            <file>file:/C:/Projects/INF1416-T3/src/pucrio/infosec/view/MainFrame.java</file>
-            <file>file:/C:/Projects/INF1416-T3/src/pucrio/infosec/view/MainPanel.java</file>
+            <file>file:/C:/Projects/INF1416-T3/src/pucrio/infosec/view/PwdPanel.java</file>
             <file>file:/C:/Projects/INF1416-T3/src/pucrio/infosec/controller/LoginController.java</file>
-            <file>file:/C:/Projects/INF1416-T3/src/pucrio/infosec/model/Registry.java</file>
+            <file>file:/C:/Projects/INF1416-T3/src/pucrio/infosec/view/MainPanel.java</file>
+            <file>file:/C:/Projects/INF1416-T3/src/pucrio/infosec/controller/PwdController.java</file>
             <file>file:/C:/Projects/INF1416-T3/src/pucrio/infosec/dao/MessageDao.java</file>
+            <file>file:/C:/Projects/INF1416-T3/src/pucrio/infosec/controller/UserRegistrationController.java</file>
+            <file>file:/C:/Projects/INF1416-T3/src/pucrio/infosec/dao/UserDao.java</file>
+            <file>file:/C:/Projects/INF1416-T3/src/pucrio/infosec/model/Message.java</file>
+            <file>file:/C:/Projects/INF1416-T3/src/pucrio/infosec/model/User.java</file>
+            <file>file:/C:/Projects/INF1416-T3/src/hibernate.cfg.xml</file>
+            <file>file:/C:/Projects/INF1416-T3/src/pucrio/infosec/view/MainFrame.java</file>
+            <file>file:/C:/Projects/INF1416-T3/src/pucrio/infosec/model/Registry.java</file>
         </group>
     </open-files>
 </project-private>

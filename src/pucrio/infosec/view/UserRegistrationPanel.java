@@ -16,7 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import pucrio.infosec.controller.UserRegistrationController;
-import pucrio.infosec.model.Group;
+import pucrio.infosec.model.GroupName;
 import pucrio.infosec.model.User;
 
 /**
@@ -51,7 +51,7 @@ public class UserRegistrationPanel extends JPanel implements ActionListener {
     private JTextField lengthTanRegText;
     private JButton regButton;
     private JButton backButton;
-    String[] Groups = {"Selecione", Group.ADMINISTRATOR.toString(), Group.USER.toString()};
+    String[] Groups = {"Selecione", GroupName.ADMINISTRATOR.toString(), GroupName.USER.toString()};
 
     public UserRegistrationPanel(JFrame mainFrame) {
         this.mainFrame = mainFrame;
@@ -133,9 +133,9 @@ public class UserRegistrationPanel extends JPanel implements ActionListener {
                     user.setLogin(loginRegText.getText());
                     user.setPwd(pwdRegText.getText());
                     if(groupRegText.getSelectedItem().toString().equals("ADMINISTRATOR"))
-                       user.setGroup(Group.ADMINISTRATOR);
+                       user.setGroupName(GroupName.ADMINISTRATOR);
                     else
-                       user.setGroup(Group.USER);
+                       user.setGroupName(GroupName.USER);
                     
                     user.setTanPath(pathTanRegText.getText());
                     user.setTanPath(lengthTanRegText.getText());
