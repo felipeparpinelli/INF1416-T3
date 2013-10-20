@@ -14,7 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import pucrio.infosec.controller.LoginController;
-import pucrio.infosec.dao.RegistryrDao;
+import pucrio.infosec.dao.RegistryDao;
 
 /**
  *
@@ -30,7 +30,7 @@ public class MainPanel extends JPanel implements ActionListener{
     @SuppressWarnings("LeakingThisInConstructor")
     public MainPanel (JFrame mainFrame)
     {
-        RegistryrDao.storeRegistry(2001);
+        RegistryDao.storeRegistry(2001);
         this.mainFrame = mainFrame;
         loginLabel = new JLabel("Login:");
         loginText = new JTextField(15);

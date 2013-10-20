@@ -36,15 +36,18 @@ public class User {
     @Column(name = "pwd")
     private String pwd;
     
+    @Column(name = "salt")
+    private int salt;
+    
     private String confirmPwd;
     
     private String tanPath;
     
     private String tanLength;
     
-    @Column(name = "group")
+    @Column(name = "groupName")
     @Enumerated(EnumType.ORDINAL)
-    private Group group;
+    private GroupName groupName;
     
     public int getId() {
         return id;
@@ -77,6 +80,14 @@ public class User {
     public void setPwd(String pwd) {
         this.pwd = pwd;
     }
+    
+    public int getSalt() {
+        return salt;
+    }
+
+    public void setSalt(int salt) {
+        this.salt = salt;
+    }
 
     public String getConfirmPwd() {
         return confirmPwd;
@@ -102,11 +113,11 @@ public class User {
         this.tanLength = tanLength;
     }
 
-    public Group getGroup() {
-        return group;
+    public GroupName getGroup() {
+        return groupName;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
+    public void setGroup(GroupName group) {
+        this.groupName = group;
     }  
 }

@@ -21,7 +21,7 @@ import pucrio.infosec.helpers.Auth;
  *
  * @author Arrais
  */
-public class RegistryrDao {
+public class RegistryDao {
     public static Message searchEntriesAfterDate(Date date) {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session session = sessionFactory.openSession();
@@ -35,15 +35,15 @@ public class RegistryrDao {
     }
     
     public static void storeRegistry (int messageId){
-        RegistryrDao.storeRegistry(messageId, null, null);       
+        RegistryDao.storeRegistry(messageId, null, null);       
     }
     
     public static void storeRegistry (int messageId, String data){
-        RegistryrDao.storeRegistry(messageId, data, null);       
+        RegistryDao.storeRegistry(messageId, data, null);       
     }
     
     public static void storeRegistryWithFile (int messageId, String arquivo){
-        RegistryrDao.storeRegistry(messageId, null, arquivo);
+        RegistryDao.storeRegistry(messageId, null, arquivo);
     }
     
     public static void storeRegistry (int messageId, String data, String arquivo){
