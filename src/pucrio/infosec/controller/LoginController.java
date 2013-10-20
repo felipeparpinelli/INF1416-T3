@@ -31,7 +31,7 @@ public class LoginController {
 
             user = UserDao.searchUser(login);
             if (user == null) {
-                RegistryrDao.storeRegistry(2005, login);
+                RegistryDao.storeRegistry(2005, login);
                 //panel.ErrorMessage("Usuario nao encontrado");
                 panel.validate();
             } else {

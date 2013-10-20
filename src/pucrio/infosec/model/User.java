@@ -42,6 +42,9 @@ public class User {
     
     private String tanLength;
     
+    @Column(name = "salt")
+    private int salt;
+    
     @Column(name = "accessControl")
     private String accessControl;
     
@@ -53,7 +56,7 @@ public class User {
     
     @Column(name = "groupName")
     @Enumerated(EnumType.STRING)
-    private Group group;
+    private GroupName groupName;
     
     public int getId() {
         return id;
@@ -111,11 +114,44 @@ public class User {
         this.tanLength = tanLength;
     }
 
-    public Group getGroup() {
-        return group;
+    public GroupName getGroupName() {
+        return groupName;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
-    }  
+    public void setGroupName(GroupName groupName) {
+        this.groupName = groupName;
+    }
+
+    public String getAccessControl() {
+        return accessControl;
+    }
+
+    public void setAccessControl(String accessControl) {
+        this.accessControl = accessControl;
+    }
+
+    public String getAccessNumber() {
+        return accessNumber;
+    }
+
+    public void setAccessNumber(String accessNumber) {
+        this.accessNumber = accessNumber;
+    }
+
+    public String getQueriesNumber() {
+        return queriesNumber;
+    }
+
+    public void setQueriesNumber(String queriesNumber) {
+        this.queriesNumber = queriesNumber;
+    }
+    
+    public int getSalt() {
+        return salt;
+    }
+
+    public void setSalt(int salt) {
+        this.salt = salt;
+    } 
+    
 }

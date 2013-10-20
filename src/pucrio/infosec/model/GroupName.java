@@ -8,7 +8,7 @@ package pucrio.infosec.model;
  *
  * @author Felipe
  */
-public enum Group {
+public enum GroupName {
     
     ADMINISTRATOR, USER;
     

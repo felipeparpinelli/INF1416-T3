@@ -5,7 +5,7 @@
 package pucrio.infosec.launch;
 
 import pucrio.infosec.view.*;
-import pucrio.infosec.dao.RegistryrDao;
+import pucrio.infosec.dao.RegistryDao;
 
 /**
  *
@@ -17,7 +17,7 @@ public class Main {
     {
         MainFrame mainframe = new MainFrame();
         LoggerFrame logger = new LoggerFrame();
-        RegistryrDao.storeRegistry(1001);        
+        RegistryDao.storeRegistry(1001);        
     }
     
 }
