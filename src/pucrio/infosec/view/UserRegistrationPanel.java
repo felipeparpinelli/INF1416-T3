@@ -128,6 +128,7 @@ public class UserRegistrationPanel extends JPanel implements ActionListener{
             case "Cadastrar":
                 UserRegistrationController userReg = new UserRegistrationController();
                 userReg.isValidPwd(pwdRegText.getText());
+                userReg.checkLogin(loginRegText.getText());
                 break;
             case "Voltar para o menu":
                 MenuPanel menuPanel = new MenuPanel(mainFrame);

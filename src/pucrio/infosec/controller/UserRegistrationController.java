@@ -4,12 +4,17 @@
  */
 package pucrio.infosec.controller;
 
+import pucrio.infosec.dao.UserDao;
+import pucrio.infosec.model.User;
+
 /**
  *
  * @author Felipe
  */
 public class UserRegistrationController {
-
+    
+    User user = new User();
+    
     public UserRegistrationController() {
     }
 
@@ -52,5 +57,17 @@ public class UserRegistrationController {
         else
             return false;
 
+    }
+    
+    public boolean checkLogin(String login)
+    { 
+        user = UserDao.searchUser(login);
+        
+        if(user == null)
+        {   
+            return true;   
+        } 
+        
+        return false;
     }
 }
