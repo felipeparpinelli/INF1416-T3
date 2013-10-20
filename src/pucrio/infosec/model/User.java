@@ -42,8 +42,17 @@ public class User {
     
     private String tanLength;
     
-    @Column(name = "group")
-    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "accessControl")
+    private String accessControl;
+    
+    @Column(name = "numberAccesses")
+    private String accessNumber;
+    
+    @Column(name = "numberQueries")
+    private String queriesNumber;
+    
+    @Column(name = "groupName")
+    @Enumerated(EnumType.STRING)
     private Group group;
     
     public int getId() {

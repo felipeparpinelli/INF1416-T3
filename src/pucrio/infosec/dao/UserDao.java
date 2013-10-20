@@ -28,4 +28,15 @@ public class UserDao {
         session.close();
         return userFound;
     }
+
+    public static void insertUser(User user) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        session.save(user);
+        session.persist(user);
+        t.commit();
+
+        session.clear();
+        session.close();
+    }
 }

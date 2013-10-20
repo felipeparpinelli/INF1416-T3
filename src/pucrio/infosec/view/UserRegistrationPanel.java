@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import pucrio.infosec.controller.UserRegistrationController;
 import pucrio.infosec.model.Group;
+import pucrio.infosec.model.User;
 
 /**
  *
@@ -123,11 +124,33 @@ public class UserRegistrationPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case "Cadastrar":
+                
                 UserRegistrationController userReg = new UserRegistrationController();
-                userReg.isValidPwd(pwdRegText.getText());
-                userReg.checkLogin(loginRegText.getText());
-                userReg.isEqualPwd(pwdRegText.getText(), confirmPwdRegText.getText());
-                userReg.createTanList(pathTanRegText.getText(), lengthTanRegText.getText(), loginRegText.getText());
+                if(userReg.isValidPwd(pwdRegText.getText()) && userReg.checkLogin(loginRegText.getText()) && userReg.isEqualPwd(pwdRegText.getText(), confirmPwdRegText.getText()) && confirmPwdRegText.getText() != null && pwdRegText.getText() != null && loginRegText.getText() != null && nameRegText.getText() != null && !groupRegText.getSelectedItem().toString().equals("Selecione") && pathTanRegText.getText() != null && lengthTanRegText.getText() != null)
+                {
+                    User user = new User();
+                    user.setName(nameRegText.getText());
+                    user.setLogin(loginRegText.getText());
+                    user.setPwd(pwdRegText.getText());
+                    if(groupRegText.getSelectedItem().toString().equals("ADMINISTRATOR"))
+                       user.setGroup(Group.ADMINISTRATOR);
+                    else
+                       user.setGroup(Group.USER);
+                    
+                    user.setTanPath(pathTanRegText.getText());
+                    user.setTanPath(lengthTanRegText.getText());
+                    
+                    userReg.createTanList(pathTanRegText.getText(), lengthTanRegText.getText(), loginRegText.getText());
+                    userReg.saveUser(user);
+                }
+                else
+                {
+                    UserRegistrationPanel userRegPanel = new UserRegistrationPanel(mainFrame);
+                    mainFrame.setContentPane(userRegPanel);
+                    mainFrame.repaint();
+                    mainFrame.validate();
+                }
+                
                 break;
             case "Voltar para o menu":
                 MenuPanel menuPanel = new MenuPanel(mainFrame);
