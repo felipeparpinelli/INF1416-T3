@@ -6,12 +6,17 @@
 
 package pucrio.infosec.dao;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import pucrio.infosec.helpers.Auth;
 import pucrio.infosec.model.OneTimePassword;
 import pucrio.infosec.model.TanList;
 import pucrio.infosec.model.User;
@@ -26,10 +31,18 @@ public class OneTimePasswordDao {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session session = sessionFactory.openSession();        
         Transaction tx = session.beginTransaction();
-        session.save(pass);
-        tx.commit();
-        
-        session.close(); 
+        Random rand = new Random();
+        Integer salt = rand.nextInt(999999999);
+        pass.setSalt(salt);
+        try {
+            pass.setPassword(Auth.generatePasswordHash(pass.getPassword(), salt));
+            session.save(pass);
+            tx.commit();
+            session.close(); 
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+            Logger.getLogger(OneTimePasswordDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     public static List<OneTimePassword> getAllByTanList(int tanListId) {
@@ -68,5 +81,14 @@ public class OneTimePasswordDao {
         session.close(); 
         
         return pass;
+    }
+    
+    public static void update (OneTimePassword pass){
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        session.update(pass);
+        tx.commit();       
+        session.close(); 
     }
 }

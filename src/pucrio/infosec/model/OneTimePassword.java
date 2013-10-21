@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import pucrio.infosec.dao.OneTimePasswordDao;
+import pucrio.infosec.dao.UserDao;
 import pucrio.infosec.helpers.Auth;
 
 /**
@@ -37,8 +39,11 @@ public class OneTimePassword {
     private int key;
     
     @Column(name = "usado")
-    private int used;
+    private boolean used;
 
+    @Column(name = "salt")
+    private int salt;
+    
     /**
      * @return the tanListId
      */
@@ -46,6 +51,10 @@ public class OneTimePassword {
         return tanListId;
     }
 
+    public int getSalt() {
+        return this.salt;
+    }
+    
     /**
      * @param tanListId the tanListId to set
      */
@@ -93,5 +102,22 @@ public class OneTimePassword {
      */
     public void setKey(int key) {
         this.key = key;
+    }
+
+    public void setSalt(Integer salt) {
+        this.salt = salt;
+    }
+
+    public void use() {
+        this.setUsed(true);
+        OneTimePasswordDao.update(this);
+    }
+
+    private void setUsed(boolean b) {
+        this.used = b;
+    }
+
+    public boolean isUsed() {
+        return this.used;
     }
 }

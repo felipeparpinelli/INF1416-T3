@@ -36,6 +36,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import pucrio.infosec.controller.KeyCheckController;
 import java.awt.event.*;
+import static java.util.Collections.list;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -63,7 +65,7 @@ public class SearchFolderPanel extends JPanel implements ActionListener {
     private JButton loadKeyButton;
     private JButton listButton;
     private JButton backButton;
-    private JList list;
+    private java.awt.List list;
     private JTable jtable;
     private DefaultListModel model;
 
@@ -87,7 +89,7 @@ public class SearchFolderPanel extends JPanel implements ActionListener {
         folderPathLabel = new JLabel("Caminho da pasta de arquivos: ");
 
 
-        list = new JList();
+        list = new java.awt.List() ;
         JScrollPane jscroll = new JScrollPane(list);
         jscroll.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
             @Override
@@ -204,9 +206,15 @@ public class SearchFolderPanel extends JPanel implements ActionListener {
                     model.add(i, array.get(i));
                 }
 
-                list = new JList(model);
+               this.add(list);
                 list.setVisible(true);
-                this.add(list);
+                list.addItemListener(new ItemListener() {
+
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                JOptionPane.showConfirmDialog(groupText, list.getSelectedItem());
+            }
+        });
                 mainFrame.repaint();
                 mainFrame.validate();
 
