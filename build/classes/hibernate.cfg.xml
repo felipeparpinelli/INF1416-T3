@@ -14,9 +14,11 @@ PUBLIC "-//Hibernate/Hibernate Configuration DTD//EN"
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
         <!-- List of annotated classes -->
+        <mapping class="pucrio.infosec.model.Message"/>
         <mapping class="pucrio.infosec.model.User"/>
         <mapping class="pucrio.infosec.model.Registry"/>
         <mapping class="pucrio.infosec.model.OneTimePassword"/>
         <mapping class="pucrio.infosec.model.TanList"/>
+
     </session-factory>
 </hibernate-configuration>

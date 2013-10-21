@@ -10,7 +10,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import pucrio.infosec.model.User;
 import pucrio.infosec.model.Message;
 
 /**
@@ -19,15 +18,20 @@ import pucrio.infosec.model.Message;
  */
 public class MessageDao {
     
-        public static Message searchMessage(int id) {
+        public static Message searchMessage(int id) {        
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        String queryString = "from Message Mensagens where id = "+ id;
-        Query query = session.createQuery(queryString);
-        Message message = (Message) query.uniqueResult();
+        Query query = session.createQuery(
+        "SELECT m from Message m WHERE m.id=:id");
+        query.setParameter("id", 3003);
+
+
+        //String queryString = "from Message mensagens where id = " + id;
+        //Query query = session.createQuery(queryString);
+        Message messageFound = (Message) query.uniqueResult();
         transaction.commit();
         session.close();
-        return message;
+        return messageFound;
     }
 }

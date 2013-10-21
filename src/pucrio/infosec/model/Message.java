@@ -5,25 +5,40 @@
 package pucrio.infosec.model;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import pucrio.infosec.dao.MessageDao;
 
 /**
  *
  * @author Felipe
  */
+@Entity
+@Table(name="Mensagens")
 public class Message {
 
     @Id 
+    @Column(name = "chave")
+    private int key;
+    
     @Column(name = "id")
     private int id;
     
     @Column(name = "mensagem")
     private String message;
-    
-    public Message getMessage(int id) {
-        return MessageDao.searchMessage(id);
+        
+    public static String parseMessage (int id, String loginName, String file){
+        Message message = MessageDao.searchMessage(id);
+        String text = message.message.replace("<login_name>", loginName);
+        
+        if (file != null)
+        {
+            text = text.replace("<arq_name>", file);
+        }
+        
+        return text;
     }
 }
