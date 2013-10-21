@@ -7,11 +7,14 @@
 package pucrio.infosec.dao;
 
 import java.util.List;
+import java.util.Random;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import pucrio.infosec.model.OneTimePassword;
 import pucrio.infosec.model.TanList;
+import pucrio.infosec.model.User;
 
 /**
  *
@@ -29,7 +32,41 @@ public class OneTimePasswordDao {
         session.close(); 
     }
 
-    public static List<OneTimePassword> getAll(int tanListId) {
+    public static List<OneTimePassword> getAllByTanList(int tanListId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public static OneTimePassword getRandomUnusedByUser (int userId){ 
+        int tanListId = TanListDao.searchUnusedByUser(userId).getId();
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        String queryString = "from OneTimePassword OneTimePassword where tanlist_id = "
+                + tanListId + " and usado = 0 order by chave";
+        Query query = session.createQuery(queryString);
+        List<OneTimePassword> passwords = (List<OneTimePassword>) query.list();
+        transaction.commit();
+        session.close();  
+        
+        Random rand = new Random();
+        User user = UserDao.searchUserById(userId);
+        Integer key = rand.nextInt(user.getTanLength() - 1);
+        
+        return passwords.get(key);
+    }
+    
+    public static OneTimePassword getByUserIdAndKey (int userId, int key){
+        int tanListId = TanListDao.searchUnusedByUser(userId).getId();
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        String queryString = "from OneTimePassword OneTimePassword where tanlist_id = "
+                + tanListId + " and key = " + key;
+        Query query = session.createQuery(queryString);
+        OneTimePassword pass = (OneTimePassword) query.uniqueResult();
+        transaction.commit();
+        session.close(); 
+        
+        return pass;
     }
 }

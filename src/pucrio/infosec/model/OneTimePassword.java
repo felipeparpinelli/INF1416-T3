@@ -35,6 +35,9 @@ public class OneTimePassword {
     
     @Column(name = "chave")
     private int key;
+    
+    @Column(name = "usado")
+    private int used;
 
     /**
      * @return the tanListId

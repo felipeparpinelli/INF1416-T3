@@ -35,6 +35,18 @@ public class UserDao {
         return userFound;
     }
     
+    public static User searchUserById(int userId) {
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        String queryString = "from User Usuarios where id = " + userId;
+        Query query = session.createQuery(queryString);
+        User userFound = (User) query.uniqueResult();
+        transaction.commit();
+        session.close();
+        return userFound;
+    }
+    
     public static void storeUser (User user){
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session session = sessionFactory.openSession();

@@ -35,6 +35,9 @@ public class TanList {
     @GeneratedValue (strategy=GenerationType.AUTO)
     @Column(name = "id")
     private int id;
+    
+    @Column(name = "usada")
+    private boolean used;
 
     public void addOneTimePassword(String oneTimePassword, int key) {
         OneTimePassword pass = new OneTimePassword();
@@ -46,7 +49,7 @@ public class TanList {
     }
     
     public List<OneTimePassword> getOneTimePasswords (){
-        return OneTimePasswordDao.getAll(this.id);
+        return OneTimePasswordDao.getAllByTanList(this.id);
     }
 
     /**
