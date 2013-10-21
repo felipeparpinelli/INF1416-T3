@@ -47,6 +47,7 @@ public class PwdController {
                                     if (hash.equals(user.getPwd())) {
                                         RegistryDao.storeRegistry(3003, Auth.getInstance().getCurrentUser().getLogin());
                                         RegistryDao.storeRegistry(3002, Auth.getInstance().getCurrentUser().getLogin());
+                                        user.setpasswordTries(0);
                                         return true;
                                     }
                                 } catch (NoSuchAlgorithmException ex) {

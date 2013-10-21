@@ -58,7 +58,7 @@ public class User {
     
     private String tanPath;
     
-    private String tanLength;
+    private int tanLength;
  
     @Column(name = "accessControl")
     private String accessControl;
@@ -129,11 +129,11 @@ public class User {
         this.tanPath = tanPath;
     }
 
-    public String getTanLength() {
+    public int getTanLength() {
         return tanLength;
     }
 
-    public void setTanLength(String tanLength) {
+    public void setTanLength(int tanLength) {
         this.tanLength = tanLength;
     }
 
