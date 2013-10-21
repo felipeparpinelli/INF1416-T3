@@ -6,25 +6,36 @@ package pucrio.infosec.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
 import pucrio.infosec.controller.KeyCheckController;
+import java.awt.event.*;
 
 /**
  *
@@ -52,10 +63,13 @@ public class SearchFolderPanel extends JPanel implements ActionListener {
     private JButton loadKeyButton;
     private JButton listButton;
     private JButton backButton;
-    private JTable filesList;
+    private JList list;
+    private JTable jtable;
+    private DefaultListModel model;
 
     public SearchFolderPanel(JFrame mainFrame) {
         this.mainFrame = mainFrame;
+        mainFrame.setSize(700, 700);
 
         loginLabel = new JLabel("Login: ");
         groupLabel = new JLabel("Grupo: ");
@@ -72,7 +86,30 @@ public class SearchFolderPanel extends JPanel implements ActionListener {
         passphraseLabel = new JLabel("Frase secreta da chave privada: ");
         folderPathLabel = new JLabel("Caminho da pasta de arquivos: ");
 
-        filesList = new JTable();
+
+        list = new JList();
+        JScrollPane jscroll = new JScrollPane(list);
+        jscroll.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
+            @Override
+            public void adjustmentValueChanged(AdjustmentEvent e) {
+                e.getAdjustable().setValue(e.getAdjustable().getMaximum());
+            }
+        });
+
+        list.setVisible(false);
+
+        String[] colunas = new String[]{"Estado", "Cidade"};
+        String[][] dados = new String[][]{
+            {"SP", "Sao Paulo"},
+            {"RJ", "Rio de Janeiro"},
+            {"RN", "Rio Grande do Norte"},
+            {"PR", "Parana"}
+        };
+        DefaultTableModel modelo = new DefaultTableModel(dados, colunas);
+        jtable = new JTable(modelo);
+        jtable.setSize(400, 200);
+        jtable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        jtable.setVisible(false);
 
         pathPulicKeyText = new JTextField(30);
         pathPrivateKeyText = new JTextField(30);
@@ -108,10 +145,10 @@ public class SearchFolderPanel extends JPanel implements ActionListener {
         this.add(folderPathLabel);
         this.add(folderPathText);
 
-        this.add(filesList);
-
         this.add(listButton);
         this.add(backButton);
+
+        this.add(list);
 
     }
 
@@ -120,36 +157,61 @@ public class SearchFolderPanel extends JPanel implements ActionListener {
         switch (e.getActionCommand()) {
             case "Carregar chave":
                 KeyCheckController keyCheck = new KeyCheckController(pathPrivateKeyText.getText(), passphraseText.getText(), pathPulicKeyText.getText());
-        try {
-            
-            boolean isValidKey = keyCheck.checkPrivateKey();
-            if (isValidKey == true)
-            {
-                folderPathText.setEditable(true);
-            }
-            
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchPaddingException ex) {
-            Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvalidKeyException ex) {
-            Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (BadPaddingException ex) {
-            Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalBlockSizeException ex) {
-            Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvalidKeySpecException ex) {
-            Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SignatureException ex) {
-            Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+                try {
+
+                    boolean isValidKey = keyCheck.checkPrivateKey();
+                    if (isValidKey == true) {
+                        folderPathText.setEditable(true);
+                    }
+
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NoSuchPaddingException ex) {
+                    Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NoSuchAlgorithmException ex) {
+                    Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InvalidKeyException ex) {
+                    Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (BadPaddingException ex) {
+                    Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalBlockSizeException ex) {
+                    Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InvalidKeySpecException ex) {
+                    Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SignatureException ex) {
+                    Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 break;
             case "Listar":
-                System.out.println("Listar clicado.");
+
+                KeyCheckController listFiles = new KeyCheckController(pathPrivateKeyText.getText(), pathPulicKeyText.getText(), folderPathText.getText(), "");
+                String isValid = listFiles.getIndexContent();
+
+                model = new DefaultListModel();
+
+                List<String> array = null;
+                try {
+                    array = removerNl(isValid);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                for (int i = 0; i < array.size(); i++) {
+                    model.add(i, array.get(i));
+                }
+
+                list = new JList(model);
+                list.setVisible(true);
+                this.add(list);
+                mainFrame.repaint();
+                mainFrame.validate();
+
+                System.out.println(isValid);
+
                 break;
             case "Voltar para o menu":
                 MenuPanel menuPanel = new MenuPanel(mainFrame);
@@ -162,4 +224,17 @@ public class SearchFolderPanel extends JPanel implements ActionListener {
 
         }
     }
+
+    public List<String> removerNl(String frase) throws FileNotFoundException, IOException {
+        List<String> listArray = new ArrayList<>();
+        StringBuffer str = new StringBuffer();
+        String[] resultados = frase.split("\n");
+        for (int x = 0; x < resultados.length; x++) {
+            listArray.add(resultados[x]);
+            System.out.println(listArray.get(x));
+        }
+
+        return listArray;
+    }
+    
 }

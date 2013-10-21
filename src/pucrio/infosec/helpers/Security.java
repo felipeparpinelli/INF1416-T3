@@ -31,7 +31,7 @@ import javax.crypto.NoSuchPaddingException;
  */
 public class Security {
 
-    public static byte[] decryptPKCS5(byte[] encoded, Key key) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IOException, BadPaddingException, IllegalBlockSizeException, InvalidKeySpecException {
+    public byte[] decryptPKCS5(byte[] encoded, Key key) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IOException, BadPaddingException, IllegalBlockSizeException, InvalidKeySpecException {
         Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
         cipher.init(Cipher.DECRYPT_MODE, key);
         return cipher.doFinal(encoded);
@@ -69,12 +69,36 @@ public class Security {
 
         byte[] signPrivateKey = sign.sign();
         sign.initVerify(publicKey);
-        
+
         sign.update(bytes);
 
         if (sign.verify(signPrivateKey)) {
             return true;
         }
         return false;
+    }
+
+    public byte[] getSeedEnvelope(byte[] content, Key privateKey) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
+
+        Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+        cipher.init(Cipher.DECRYPT_MODE, privateKey);
+        // decripta utilizando a chave privada
+        return cipher.doFinal(content);
+    }
+
+    public Key getKeyFromSeed(byte[] seed) throws NoSuchAlgorithmException {
+        SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
+        random.setSeed(seed);
+        KeyGenerator keyGen = KeyGenerator.getInstance("DES");
+        keyGen.init(56, random);
+        return keyGen.generateKey();
+    }
+
+    public boolean checkSign(PublicKey publicKey, byte[] signatureBytes, byte[] signedBytes) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
+        Signature signature = Signature.getInstance("MD5withRSA");
+ 
+        signature.initVerify(publicKey);
+        signature.update(signedBytes);
+        return signature.verify(signatureBytes);
     }
 }
