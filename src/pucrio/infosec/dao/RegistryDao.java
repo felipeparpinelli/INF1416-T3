@@ -9,6 +9,7 @@ package pucrio.infosec.dao;
 import java.sql.Time;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -23,16 +24,16 @@ import pucrio.infosec.helpers.Auth;
  * @author Arrais
  */
 public class RegistryDao {
-    public static Message searchEntriesAfterDate(Date date) {
+    public static List<Registry> searchEntriesBeforeDate(Date date) {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        String queryString = "from Message Mensagens where data = "+ date + "order by data";
+        String queryString = "from Registry Registro where data < '"+ date + "' order by data";
         Query query = session.createQuery(queryString);
-        Message message = (Message) query.uniqueResult();
+        List<Registry> entries = (List<Registry>) query.list();
         transaction.commit();
         session.close();
-        return message;
+        return entries;
     }
     
     public static void storeRegistry (int messageId){
