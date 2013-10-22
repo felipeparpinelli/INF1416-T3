@@ -62,7 +62,20 @@ public class PwdController {
             }
         }
         
-        user.increasePasswordTries();
+        RegistryDao.storeRegistry(3004, Auth.getInstance().getCurrentUser().getLogin());
+        switch (user.getpasswordTries())
+        {
+            case 1:
+                RegistryDao.storeRegistry(3005, Auth.getInstance().getCurrentUser().getLogin());
+                break;
+            case 2:
+                RegistryDao.storeRegistry(3006, Auth.getInstance().getCurrentUser().getLogin());
+                break;
+            case 3:
+                RegistryDao.storeRegistry(3007, Auth.getInstance().getCurrentUser().getLogin());
+                break;
+        }
+        user.increasePasswordTries(2);
         return false;
     }
 

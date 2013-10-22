@@ -7,6 +7,7 @@
 package pucrio.infosec.dao;
 
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -24,13 +25,13 @@ import pucrio.infosec.helpers.Auth;
  * @author Arrais
  */
 public class RegistryDao {
-    public static List<Registry> searchEntriesBeforeDate(Date date) {
+    public static ArrayList<Registry> searchEntriesBeforeDate(Date date) {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        String queryString = "from Registry Registro where data < '"+ date + "' order by data";
+        String queryString = "from Registry Registro where date < '"+ date + "' order by date";
         Query query = session.createQuery(queryString);
-        List<Registry> entries = (List<Registry>) query.list();
+        ArrayList<Registry> entries = (ArrayList<Registry>) query.list();
         transaction.commit();
         session.close();
         return entries;
@@ -44,8 +45,8 @@ public class RegistryDao {
         RegistryDao.storeRegistry(messageId, data, null);       
     }
     
-    public static void storeRegistryWithFile (int messageId, String arquivo){
-        RegistryDao.storeRegistry(messageId, null, arquivo);
+    public static void storeRegistryWithFile (int messageId, String userId, String arquivo){
+        RegistryDao.storeRegistry(messageId, userId, arquivo);
     }
     
     public static void storeRegistry (int messageId, String data, String arquivo){

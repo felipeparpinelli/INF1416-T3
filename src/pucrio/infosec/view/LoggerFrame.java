@@ -71,12 +71,19 @@ public class LoggerFrame extends JFrame{
     }
     
     private void updateData(DefaultTableModel model) {
-        List<Registry> entries = RegistryDao.searchEntriesBeforeDate(Calendar.getInstance().getTime());
+        ArrayList<Registry> entries = RegistryDao.searchEntriesBeforeDate(Calendar.getInstance().getTime());
         ArrayList<Object[]> objects = new ArrayList<Object[]>();
         for (Registry entry : entries)
         {
             User user = UserDao.searchUserById(entry.getUserId());
-            String message = Message.parseMessage(entry.getMessageId(), user.getLogin(), null);
+            String message;
+            if(entry.getUserId() != 0)
+            {
+                message = Message.parseMessage(entry.getMessageId(), user.getLogin(), null);
+            }
+            else{
+                message = Message.parseMessage(entry.getMessageId(), null, null);
+            }          
             objects.add(new Object[]{entry.getDate(), message});
         }
         

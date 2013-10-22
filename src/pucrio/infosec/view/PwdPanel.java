@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import pucrio.infosec.controller.PwdController;
+import pucrio.infosec.dao.RegistryDao;
 import pucrio.infosec.helpers.Auth;
 import pucrio.infosec.model.User;
 
@@ -72,6 +73,7 @@ public class PwdPanel extends JPanel implements ActionListener {
         this.add(buttons[4], BorderLayout.CENTER);
         
         this.add(pwdField, BorderLayout.CENTER);
+        RegistryDao.storeRegistry(3001, Auth.getInstance().getCurrentUser().getLogin());
 
     }
 

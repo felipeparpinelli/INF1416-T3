@@ -10,6 +10,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import pucrio.infosec.dao.RegistryDao;
+import pucrio.infosec.helpers.Auth;
+import pucrio.infosec.model.GroupName;
 
 /**
  *
@@ -38,17 +41,22 @@ public class MenuPanel extends JPanel implements ActionListener{
         this.mainFrame = mainframe;
         this.mainFrame.setSize(500, 500);
         this.mainFrame.validate();
-        
+        RegistryDao.storeRegistry(5001, Auth.getInstance().getCurrentUser().getLogin());
         loginLabel = new JLabel("Login: ");
-        groupLabel = new JLabel("Grupo: ");
-        descriptionLabel = new JLabel("Descricao: ");
-        accessLabel = new JLabel("Total de acessos do usuario: ");
-        menuLabel = new JLabel("Menu Principal: ");
-        
         loginText = new JLabel("{login}");
         groupText = new JLabel("{Grupo}");
         descriptionText = new JLabel("{Descricao}");
         accessText = new JLabel("{Total de acessos do usuario}");
+                
+        loginText.setText(Auth.getInstance().getCurrentUser().getLogin());        
+        groupLabel = new JLabel("Grupo: ");
+        groupText.setText(Auth.getInstance().getCurrentUser().getGroupName().toString());
+        descriptionLabel = new JLabel("Descricao: ");
+        descriptionText.setText(Auth.getInstance().getCurrentUser().getName());
+        accessLabel = new JLabel("Total de acessos do usuario: ");
+        menuLabel = new JLabel("Menu Principal: ");
+        
+
         
         userRegButton = new JButton("Cadastrar um novo usuario");
         getUserFolderButton = new JButton("Consultar pasta de arquivos secretos de um usuario");
@@ -68,7 +76,13 @@ public class MenuPanel extends JPanel implements ActionListener{
         
         this.add(menuLabel);  
         
+        if(Auth.getInstance().getCurrentUser().getGroupName() != GroupName.ADMINISTRATOR)
+        {
+            userRegButton.setVisible(false);
+        }
+        
         this.add(userRegButton);
+        
         this.add(getUserFolderButton);
         this.add(ExitButton);
         
@@ -84,18 +98,21 @@ public class MenuPanel extends JPanel implements ActionListener{
         switch (e.getActionCommand()) {
             case "Cadastrar um novo usuario":
                 UserRegistrationPanel userRegPanel = new UserRegistrationPanel(mainFrame);
+                RegistryDao.storeRegistry(5002, Auth.getInstance().getCurrentUser().getLogin());
                 mainFrame.setContentPane(userRegPanel);
                 mainFrame.repaint();
                 mainFrame.validate();
                 break;
             case "Consultar pasta de arquivos secretos de um usuario":
                 SearchFolderPanel searchFolderPanel = new SearchFolderPanel(mainFrame);
+                RegistryDao.storeRegistry(5003, Auth.getInstance().getCurrentUser().getLogin());
                 mainFrame.setContentPane(searchFolderPanel);
                 mainFrame.repaint();
                 mainFrame.validate();
                 break;
             case "Sair do Sistema":
                 ExitPanel exitPanel = new ExitPanel(mainFrame);
+                RegistryDao.storeRegistry(5005, Auth.getInstance().getCurrentUser().getLogin());
                 mainFrame.setContentPane(exitPanel);
                 mainFrame.repaint();
                 mainFrame.validate();

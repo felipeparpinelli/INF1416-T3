@@ -4,6 +4,7 @@ package pucrio.infosec.helpers;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import pucrio.infosec.model.User;
@@ -23,6 +24,7 @@ public class Auth {
     
     private static Auth  instance;
     private User currentUser;
+    private ArrayList<String> paths = new ArrayList<String>();
     
     private Auth(){
         
@@ -56,6 +58,19 @@ public class Auth {
         }
     }
     
+    public void setPaths (ArrayList<String> paths)
+    {
+        this.paths = paths;
+    }
+    
+    public ArrayList<String> getPaths (){
+        return this.paths;
+    }
+    
+    public void addPath (String path){
+        this.paths.add(path);
+    }
+    
     final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
     private static String bytesToHex(byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
@@ -67,4 +82,5 @@ public class Auth {
         }
         return new String(hexChars);
     }
+    
 }

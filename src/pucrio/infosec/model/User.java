@@ -16,7 +16,9 @@ import javax.persistence.Table;
 import javax.persistence.Entity;
 import static java.util.concurrent.TimeUnit.*;
 import javax.persistence.Temporal;
+import pucrio.infosec.dao.RegistryDao;
 import pucrio.infosec.dao.UserDao;
+import pucrio.infosec.helpers.Auth;
 
 /**
  *
@@ -185,10 +187,19 @@ public class User {
         this.groupName = group;
     }  
 
-    public void increasePasswordTries() {
+    public void increasePasswordTries(int phase) {
         this.passwordTries++;
         if (this.passwordTries >= 3)
         {
+            switch (phase)
+            {
+                case 2:
+                    RegistryDao.storeRegistry(3008, Auth.getInstance().getCurrentUser().getLogin());
+                    break;
+                case 3:
+                    RegistryDao.storeRegistry(4007, Auth.getInstance().getCurrentUser().getLogin());
+                    break;
+            }
             this.block();
         }
         else{

@@ -38,10 +38,13 @@ public class LoginController {
                 
                 if (user.isBlocked()) {
                     //panel.ErrorMessage("Usuario bloqueado, tente novamente em alguns instantes");
+                    RegistryDao.storeRegistry(2004, Auth.getInstance().getCurrentUser().getLogin());
                     panel.validate();
 
                 } else {
                     Auth.getInstance().setCurrentUser(user);
+                    RegistryDao.storeRegistry(2003, Auth.getInstance().getCurrentUser().getLogin());
+                    RegistryDao.storeRegistry(2002, Auth.getInstance().getCurrentUser().getLogin());
                     return true;
                     
                 }

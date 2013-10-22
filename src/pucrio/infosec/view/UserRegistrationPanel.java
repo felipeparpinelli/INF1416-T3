@@ -16,6 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import pucrio.infosec.controller.UserRegistrationController;
+import pucrio.infosec.dao.RegistryDao;
+import pucrio.infosec.helpers.Auth;
 import pucrio.infosec.model.GroupName;
 import pucrio.infosec.model.User;
 
@@ -64,9 +66,13 @@ public class UserRegistrationPanel extends JPanel implements ActionListener {
         totalUserLabel = new JLabel("Total de usuarios no sistema: ");
         formLabel = new JLabel("Formulario de cadastro: ");
 
+        
         loginText = new JLabel("{login}");
+        loginText.setText(Auth.getInstance().getCurrentUser().getLogin());  
         groupText = new JLabel("{Grupo}");
+        groupText.setText(Auth.getInstance().getCurrentUser().getGroupName().toString());
         nameText = new JLabel("{Nome}");
+        nameText.setText(Auth.getInstance().getCurrentUser().getName());
         totalUserText = new JLabel("{Total de usuarios no sistema}");
 
         nameRegLabel = new JLabel("Nome do Usuário: ");
@@ -117,6 +123,8 @@ public class UserRegistrationPanel extends JPanel implements ActionListener {
 
         this.add(regButton);
         this.add(backButton);
+        
+        RegistryDao.storeRegistry(6001, Auth.getInstance().getCurrentUser().getLogin());
 
     }
 
@@ -124,7 +132,7 @@ public class UserRegistrationPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case "Cadastrar":
-                
+                RegistryDao.storeRegistry(6002, Auth.getInstance().getCurrentUser().getLogin());
                 UserRegistrationController userReg = new UserRegistrationController();
                 if(userReg.isValidPwd(pwdRegText.getText()) && userReg.checkLogin(loginRegText.getText()) && userReg.isEqualPwd(pwdRegText.getText(), confirmPwdRegText.getText()) && confirmPwdRegText.getText() != null && pwdRegText.getText() != null && loginRegText.getText() != null && nameRegText.getText() != null && !groupRegText.getSelectedItem().toString().equals("Selecione") && pathTanRegText.getText() != null && lengthTanRegText.getText() != null)
                 {
@@ -153,6 +161,7 @@ public class UserRegistrationPanel extends JPanel implements ActionListener {
                 
                 break;
             case "Voltar para o menu":
+                RegistryDao.storeRegistry(6003, Auth.getInstance().getCurrentUser().getLogin());
                 MenuPanel menuPanel = new MenuPanel(mainFrame);
                 mainFrame.setContentPane(menuPanel);
                 mainFrame.repaint();

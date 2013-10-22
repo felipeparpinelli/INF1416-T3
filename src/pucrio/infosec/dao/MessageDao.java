@@ -24,7 +24,7 @@ public class MessageDao {
         Transaction transaction = session.beginTransaction();
         Query query = session.createQuery(
         "SELECT m from Message m WHERE m.id=:id");
-        query.setParameter("id", 3003);
+        query.setParameter("id", id);
 
 
         //String queryString = "from Message mensagens where id = " + id;

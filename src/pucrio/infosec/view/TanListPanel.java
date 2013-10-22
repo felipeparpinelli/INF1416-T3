@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 import pucrio.infosec.controller.PwdController;
 import pucrio.infosec.controller.TanListController;
 import pucrio.infosec.dao.OneTimePasswordDao;
+import pucrio.infosec.dao.RegistryDao;
 import pucrio.infosec.helpers.Auth;
 import pucrio.infosec.model.OneTimePassword;
 import pucrio.infosec.model.User;
@@ -51,6 +52,7 @@ public class TanListPanel extends JPanel implements ActionListener{
         this.add(tanKeyLabel);
         this.add(tanText);
         this.add(tanButton);
+        RegistryDao.storeRegistry(4001, Auth.getInstance().getCurrentUser().getLogin());
     }
 
     @Override

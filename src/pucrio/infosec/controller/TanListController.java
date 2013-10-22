@@ -9,6 +9,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import pucrio.infosec.dao.OneTimePasswordDao;
+import pucrio.infosec.dao.RegistryDao;
 import pucrio.infosec.helpers.Auth;
 import pucrio.infosec.model.OneTimePassword;
 import pucrio.infosec.model.User;
@@ -28,16 +29,41 @@ public class TanListController {
                 if(!pass.isUsed())
                 {
                     pass.use();
+                    RegistryDao.storeRegistry(4002, Auth.getInstance().getCurrentUser().getLogin());
                     return true;
                 }
                 else
                 {
-                    user.increasePasswordTries();
+                    user.increasePasswordTries(3);
+                    switch (user.getpasswordTries())
+                    {
+                        case 1:
+                            RegistryDao.storeRegistry(4004, Auth.getInstance().getCurrentUser().getLogin());
+                            break;
+                        case 2:
+                            RegistryDao.storeRegistry(4005, Auth.getInstance().getCurrentUser().getLogin());
+                            break;
+                        case 3:
+                            RegistryDao.storeRegistry(4006, Auth.getInstance().getCurrentUser().getLogin());
+                            break;
+                    }
                     return false;
                 }
             }
             else{
-                user.increasePasswordTries();
+                user.increasePasswordTries(3);
+                switch (user.getpasswordTries())
+                {
+                    case 1:
+                        RegistryDao.storeRegistry(4004, Auth.getInstance().getCurrentUser().getLogin());
+                        break;
+                    case 2:
+                        RegistryDao.storeRegistry(4005, Auth.getInstance().getCurrentUser().getLogin());
+                        break;
+                    case 3:
+                        RegistryDao.storeRegistry(4006, Auth.getInstance().getCurrentUser().getLogin());
+                        break;
+                }
                 return false;
             }
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {

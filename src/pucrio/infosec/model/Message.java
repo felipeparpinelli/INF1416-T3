@@ -32,7 +32,13 @@ public class Message {
         
     public static String parseMessage (int id, String loginName, String file){
         Message message = MessageDao.searchMessage(id);
-        String text = message.message.replace("<login_name>", loginName);
+        
+        String text = message.message;
+        
+        if (loginName != null)
+        {
+            text = text.replace("<login_name>", loginName);
+        }
         
         if (file != null)
         {
