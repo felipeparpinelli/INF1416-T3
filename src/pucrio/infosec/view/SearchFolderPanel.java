@@ -36,6 +36,14 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import pucrio.infosec.controller.KeyCheckController;
 import java.awt.event.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import static java.util.Collections.list;
+import javax.swing.JOptionPane;
+import pucrio.infosec.dao.RegistryDao;
+import pucrio.infosec.helpers.Auth;
+import sun.misc.IOUtils;
 
 /**
  *
@@ -63,22 +71,31 @@ public class SearchFolderPanel extends JPanel implements ActionListener {
     private JButton loadKeyButton;
     private JButton listButton;
     private JButton backButton;
-    private JList list;
+    private java.awt.List list;
     private JTable jtable;
     private DefaultListModel model;
+    public List<String> listaDeArq;
 
     public SearchFolderPanel(JFrame mainFrame) {
         this.mainFrame = mainFrame;
         mainFrame.setSize(700, 700);
 
+        List<String> listaDeArq = new ArrayList<>();
+        
         loginLabel = new JLabel("Login: ");
         groupLabel = new JLabel("Grupo: ");
         nameLabel = new JLabel("Nome: ");
         totalSearchLabel = new JLabel("Total de consultas do usuario: ");
 
         loginText = new JLabel("{login}");
+        loginText.setText(Auth.getInstance().getCurrentUser().getLogin());
+       
         groupText = new JLabel("{Grupo}");
+        groupText.setText(Auth.getInstance().getCurrentUser().getGroupName().toString());
+        
         nameText = new JLabel("{Nome}");
+        nameText.setText(Auth.getInstance().getCurrentUser().getName());
+        
 
         totalSearchText = new JLabel("{Total de consultas do usuario}");
         pathPulicKeyLabel = new JLabel("Caminho da chave publica: ");
@@ -87,7 +104,7 @@ public class SearchFolderPanel extends JPanel implements ActionListener {
         folderPathLabel = new JLabel("Caminho da pasta de arquivos: ");
 
 
-        list = new JList();
+        list = new java.awt.List() ;
         JScrollPane jscroll = new JScrollPane(list);
         jscroll.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
             @Override
@@ -149,6 +166,7 @@ public class SearchFolderPanel extends JPanel implements ActionListener {
         this.add(backButton);
 
         this.add(list);
+        RegistryDao.storeRegistry(8001, Auth.getInstance().getCurrentUser().getLogin());
 
     }
 
@@ -185,10 +203,11 @@ public class SearchFolderPanel extends JPanel implements ActionListener {
                 }
                 break;
             case "Listar":
-
+                
+                
                 KeyCheckController listFiles = new KeyCheckController(pathPrivateKeyText.getText(), pathPulicKeyText.getText(), folderPathText.getText(), "");
-                String isValid = listFiles.getIndexContent();
-
+                String isValid = listFiles.getIndexContent(passphraseText.getText());
+                        
                 model = new DefaultListModel();
 
                 List<String> array = null;
@@ -199,14 +218,54 @@ public class SearchFolderPanel extends JPanel implements ActionListener {
                 } catch (IOException ex) {
                     Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                
+                // Monta lista a ser exibida, verificando o status do arquivo
+                for (int i = 0; i<array.size(); i++)
+                {
+                    String n = array.get(i);
+                    String [] a = n.split(" ");
+                    String nomeFake = a[1];
+                    String statusArq = listFiles.getFileString(passphraseText.getText(), nomeFake);
+                    if(statusArq.equals("Error"))
+                        statusArq = "NOT OK";
+                    String nomeFinal = n + " " + statusArq;
+                    list.add(nomeFinal);
+                }
 
                 for (int i = 0; i < array.size(); i++) {
                     model.add(i, array.get(i));
                 }
 
-                list = new JList(model);
+               this.add(list);
                 list.setVisible(true);
-                this.add(list);
+                list.addItemListener(new ItemListener() {
+
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                KeyCheckController listFiles = new KeyCheckController(pathPrivateKeyText.getText(), pathPulicKeyText.getText(), folderPathText.getText(), "");
+                String [] a = list.getSelectedItem().split(" ");
+                String nomeSecreto = a[0];
+                String nomeFake = a[1];
+                Auth.getInstance().addPath(folderPathText.getText() + "/" + nomeSecreto);
+                //RegistryDao.storeRegistryWithFile(8003, Auth.getInstance().getCurrentUser().getLogin(), nomeSecreto);
+                byte[] contentFile = listFiles.getFileContent(passphraseText.getText(), nomeFake);
+                String statusArq = listFiles.getFileString(passphraseText.getText(), nomeFake);
+                
+                System.out.println(contentFile);
+                try {
+                    if(!statusArq.equals("Error"))
+                        try (FileOutputStream output = new FileOutputStream(folderPathText.getText() + "/" + nomeSecreto)) {
+                                output.write(contentFile);
+                        } 
+                    
+                } catch (IOException ex) {
+                    Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                
+                
+            }
+        });
                 mainFrame.repaint();
                 mainFrame.validate();
 
@@ -214,6 +273,7 @@ public class SearchFolderPanel extends JPanel implements ActionListener {
 
                 break;
             case "Voltar para o menu":
+                RegistryDao.storeRegistry(8002, Auth.getInstance().getCurrentUser().getLogin());
                 MenuPanel menuPanel = new MenuPanel(mainFrame);
                 mainFrame.setContentPane(menuPanel);
                 mainFrame.repaint();

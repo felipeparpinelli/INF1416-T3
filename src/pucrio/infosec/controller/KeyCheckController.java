@@ -83,15 +83,15 @@ public class KeyCheckController {
         return file;
     }
 
-    public String getIndexContent() {
+    public String getIndexContent(String passPhrase) {
         try {
             privatekeyFile = loadPrivateKey();
             publicKeyFile = loadPublicKey();
-            privateKey = security.decryptPrivateKey(privatekeyFile, "segredo");
+            privateKey = security.decryptPrivateKey(privatekeyFile, passPhrase);
             publicKey = security.retrivePublicKey(publicKeyFile);
-            signatureContent = loadFile(indexPath + "index.asd");
-            envelopeContent = loadFile(indexPath + "index.env");
-            indexContent = loadFile(indexPath + "index.enc");
+            signatureContent = loadFile(indexPath + "/index.asd");
+            envelopeContent = loadFile(indexPath + "/index.env");
+            indexContent = loadFile(indexPath + "/index.enc");
 
             byte[] seed = security.getSeedEnvelope(envelopeContent, privateKey);
             Key key = security.getKeyFromSeed(seed);
@@ -104,4 +104,54 @@ public class KeyCheckController {
         }
         return "Error!";
     }
+    
+    public byte[] getFileContent(String passPhrase, String arqName) {
+        byte[] content = null;
+        try {
+            privatekeyFile = loadPrivateKey();
+            publicKeyFile = loadPublicKey();
+            privateKey = security.decryptPrivateKey(privatekeyFile, passPhrase);
+            publicKey = security.retrivePublicKey(publicKeyFile);
+            signatureContent = loadFile(indexPath + "/" + arqName + ".asd");
+            envelopeContent = loadFile(indexPath + "/" + arqName + ".env");
+            indexContent = loadFile(indexPath + "/" + arqName + ".enc");
+
+            byte[] seed = security.getSeedEnvelope(envelopeContent, privateKey);
+            Key key = security.getKeyFromSeed(seed);
+            content = security.decryptPKCS5(indexContent, key);
+
+            boolean result = security.checkSign(publicKey, signatureContent, content);
+            //TODO
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return content;
+    }
+    
+    public String getFileString(String passPhrase, String arqName) {
+        byte[] content = null;
+        try {
+            privatekeyFile = loadPrivateKey();
+            publicKeyFile = loadPublicKey();
+            privateKey = security.decryptPrivateKey(privatekeyFile, passPhrase);
+            publicKey = security.retrivePublicKey(publicKeyFile);
+            signatureContent = loadFile(indexPath + "/" + arqName + ".asd");
+            envelopeContent = loadFile(indexPath + "/" + arqName + ".env");
+            indexContent = loadFile(indexPath + "/" + arqName + ".enc");
+
+            byte[] seed = security.getSeedEnvelope(envelopeContent, privateKey);
+            Key key = security.getKeyFromSeed(seed);
+            content = security.decryptPKCS5(indexContent, key);
+
+            boolean result = security.checkSign(publicKey, signatureContent, content);
+            return result ? "OK" : "NOT OK";
+            //TODO
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return "Error";
+    }
+    
 }

@@ -14,6 +14,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import pucrio.infosec.controller.UserRegistrationController;
 import pucrio.infosec.model.GroupName;
@@ -45,8 +46,8 @@ public class UserRegistrationPanel extends JPanel implements ActionListener {
     private JTextField nameRegText;
     private JTextField loginRegText;
     private JComboBox groupRegText;
-    private JTextField pwdRegText;
-    private JTextField confirmPwdRegText;
+    private JPasswordField pwdRegText;
+    private JPasswordField confirmPwdRegText;
     private JTextField pathTanRegText;
     private JTextField lengthTanRegText;
     private JButton regButton;
@@ -80,8 +81,8 @@ public class UserRegistrationPanel extends JPanel implements ActionListener {
         nameRegText = new JTextField(30);
         loginRegText = new JTextField(20);
         groupRegText = new JComboBox(Groups);
-        pwdRegText = new JTextField(6);
-        confirmPwdRegText = new JTextField(6);
+        pwdRegText = new JPasswordField(6);
+        confirmPwdRegText = new JPasswordField(6);
         pathTanRegText = new JTextField(30);
         lengthTanRegText = new JTextField(2);
 
@@ -142,7 +143,11 @@ public class UserRegistrationPanel extends JPanel implements ActionListener {
                     
                     userReg.createTanList(pathTanRegText.getText(), lengthTanRegText.getText(), loginRegText.getText());
                     userReg.saveUser(user);
+                    mainFrame.setContentPane(new UserRegistrationPanel(mainFrame));
+                    mainFrame.repaint();
+                    mainFrame.validate();
                 }
+                /*
                 else
                 {
                     UserRegistrationPanel userRegPanel = new UserRegistrationPanel(mainFrame);
@@ -150,6 +155,7 @@ public class UserRegistrationPanel extends JPanel implements ActionListener {
                     mainFrame.repaint();
                     mainFrame.validate();
                 }
+                */
                 
                 break;
             case "Voltar para o menu":
