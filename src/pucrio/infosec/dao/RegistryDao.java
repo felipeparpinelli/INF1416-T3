@@ -61,6 +61,12 @@ public class RegistryDao {
         {
             registry.setUserId(user.getId());
         }
+        else{
+            if(data != null)
+            {
+                registry.setLogin(data);
+            }
+        }
         
         if (arquivo != null)
         {

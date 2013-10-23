@@ -20,6 +20,7 @@ import pucrio.infosec.dao.MessageDao;
 @Table(name="Mensagens")
 public class Message {
 
+
     @Id 
     @Column(name = "chave")
     private int key;
@@ -38,6 +39,24 @@ public class Message {
         if (loginName != null)
         {
             text = text.replace("<login_name>", loginName);
+        }
+        
+        if (file != null)
+        {
+            text = text.replace("<arq_name>", file);
+        }
+        
+        return text;
+    }
+    
+    public static String parseMessageWithLogin(int id, String login, String file) {
+        Message message = MessageDao.searchMessage(id);
+        
+        String text = message.message;
+        
+        if (login != null)
+        {
+            text = text.replace("<login_name>", login);
         }
         
         if (file != null)

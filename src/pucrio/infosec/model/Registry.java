@@ -44,6 +44,9 @@ public class Registry implements Serializable{
     @Column(name = "dado")
     private String data;
     
+    @Column(name = "login")
+    private String login;
+    
     /**
      * @return the date
      */
@@ -120,6 +123,14 @@ public class Registry implements Serializable{
      */
     public void setMessageId(int messageId) {
         this.messageId = messageId;
+    }
+
+    public void setLogin(String data) {
+        this.login = data;
+    }
+    
+    public String getLogin(){
+        return this.login;
     }
     
 }

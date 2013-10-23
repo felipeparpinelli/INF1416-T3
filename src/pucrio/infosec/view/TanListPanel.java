@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import pucrio.infosec.controller.PwdController;
@@ -70,14 +71,17 @@ public class TanListPanel extends JPanel implements ActionListener{
     }
     else
     {
+        
         User user = Auth.getInstance().getCurrentUser();
         if(!user.isBlocked()){
+            JOptionPane.showMessageDialog(mainFrame, "Tan incorreto, tente novamente", "Erro", JOptionPane.ERROR_MESSAGE);
             TanListPanel tanListPanel = new TanListPanel(mainFrame);
             mainFrame.setContentPane(tanListPanel);
             mainFrame.repaint();
             mainFrame.validate();
         }
         else{
+            JOptionPane.showMessageDialog(mainFrame, "Tan incorreto, usuário bloqueado", "Erro", JOptionPane.ERROR_MESSAGE);
             MainPanel mainPanel = new MainPanel(mainFrame);
             mainFrame.setContentPane(mainPanel);
             mainFrame.repaint();

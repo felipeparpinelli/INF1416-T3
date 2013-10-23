@@ -11,10 +11,13 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import pucrio.infosec.controller.LoginController;
 import pucrio.infosec.dao.RegistryDao;
+import pucrio.infosec.dao.UserDao;
+import pucrio.infosec.model.User;
 
 /**
  *
@@ -64,6 +67,18 @@ public class MainPanel extends JPanel implements ActionListener{
             mainFrame.setContentPane(pwdPanel);
             mainFrame.repaint();
             mainFrame.validate();
+        }
+        else{
+            User user = UserDao.searchUser(login);
+            if(user != null)
+            {
+                if(user.isBlocked())
+                JOptionPane.showMessageDialog(mainFrame, "Usuário bloqueado", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+            else{
+                JOptionPane.showMessageDialog(mainFrame, "Login inexistente", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+            
         }
         
     }

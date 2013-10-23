@@ -90,7 +90,7 @@ public class LoggerFrame extends JFrame{
                 message = Message.parseMessage(entry.getMessageId(), user.getLogin(), null);
             }
             else{
-                message = Message.parseMessage(entry.getMessageId(), null, null);
+                message = Message.parseMessageWithLogin(entry.getMessageId(), entry.getLogin(), null);
             }          
             objects.add(new Object[]{entry.getDate(), message});
         }

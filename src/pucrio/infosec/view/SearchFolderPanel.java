@@ -181,6 +181,9 @@ public class SearchFolderPanel extends JPanel implements ActionListener {
                     if (isValidKey == true) {
                         folderPathText.setEditable(true);
                     }
+                    else{
+                        JOptionPane.showMessageDialog(mainFrame, "Chave inválida", "Erro", JOptionPane.ERROR_MESSAGE);
+                    }
 
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);

@@ -13,6 +13,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import pucrio.infosec.controller.PwdController;
 import pucrio.infosec.dao.RegistryDao;
@@ -110,14 +111,17 @@ public class PwdPanel extends JPanel implements ActionListener {
             }
             else
             {
+                
                 User user = Auth.getInstance().getCurrentUser();
                 if(!user.isBlocked()){
+                    JOptionPane.showMessageDialog(mainFrame, "Senha incorreta, tente novamente", "Erro", JOptionPane.ERROR_MESSAGE);
                     PwdPanel pwdPanel = new PwdPanel(mainFrame);
                     mainFrame.setContentPane(pwdPanel);
                     mainFrame.repaint();
                     mainFrame.validate();
                 }
                 else{
+                    JOptionPane.showMessageDialog(mainFrame, "Senha incorreta, usuário bloqueado", "Erro", JOptionPane.ERROR_MESSAGE);
                     MainPanel mainPanel = new MainPanel(mainFrame);
                     mainFrame.setContentPane(mainPanel);
                     mainFrame.repaint();

@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import pucrio.infosec.controller.UserRegistrationController;
@@ -150,9 +151,11 @@ public class UserRegistrationPanel extends JPanel implements ActionListener {
                     
                     userReg.saveUser(user);
                     userReg.createTanList(pathTanRegText.getText(), lengthTanRegText.getText(), loginRegText.getText(), user.getId());
+                    JOptionPane.showMessageDialog(mainFrame, "Usuário criado com sucesso", "Erro", JOptionPane.PLAIN_MESSAGE);
                 }
                 else
                 {
+                    JOptionPane.showMessageDialog(mainFrame, "Dados incorretos, por favor verifique os campos", "Erro", JOptionPane.ERROR_MESSAGE);
                     UserRegistrationPanel userRegPanel = new UserRegistrationPanel(mainFrame);
                     mainFrame.setContentPane(userRegPanel);
                     mainFrame.repaint();
