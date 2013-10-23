@@ -29,6 +29,7 @@ public class TanListController {
                 if(!pass.isUsed())
                 {
                     pass.use();
+                    RegistryDao.storeRegistry(4003, Auth.getInstance().getCurrentUser().getLogin());
                     RegistryDao.storeRegistry(4002, Auth.getInstance().getCurrentUser().getLogin());
                     return true;
                 }

@@ -19,7 +19,8 @@ public class MainFrame extends JFrame {
         this.setTitle("INF1416 - TrabP1 - Grupo 3");
         this.setLocation(50, 200);
         this.setSize(500, 500);    
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
         mainPanel = new MainPanel(this);
         this.getContentPane().add(mainPanel);
   

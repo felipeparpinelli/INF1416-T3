@@ -52,7 +52,7 @@ public class LoggerFrame extends JFrame{
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         loggerPanel = new LoggerPanel();
         this.getContentPane().add(loggerPanel);
-        DefaultTableModel model = new DefaultTableModel(); 
+        DefaultTableModel model = new DefaultTableModel();
         model.addColumn("Data");
         model.addColumn("Mensagem");
         this.logList = new JTable(model);
@@ -64,14 +64,22 @@ public class LoggerFrame extends JFrame{
         this.logList.setVisible(true);      
         this.add(scrollPane);
         
-        DefaultTableModel thisModel = (DefaultTableModel) this.logList.getModel();
         updateData(model);
-        // Make the ws work a time-boxed task
         this.setVisible(true);
+        
+        while(true)
+        {
+            updateData(model);
+            try {
+                Thread.sleep(3300);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(LoggerFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     
     private void updateData(DefaultTableModel model) {
-        ArrayList<Registry> entries = RegistryDao.searchEntriesBeforeDate(Calendar.getInstance().getTime());
+        ArrayList<Registry> entries = RegistryDao.searchEntries();
         ArrayList<Object[]> objects = new ArrayList<Object[]>();
         for (Registry entry : entries)
         {
@@ -87,6 +95,12 @@ public class LoggerFrame extends JFrame{
             objects.add(new Object[]{entry.getDate(), message});
         }
         
+        if (model.getRowCount() > 0) {
+            for (int i = model.getRowCount() - 1; i > -1; i--) {
+                model.removeRow(i);
+            }
+        }
+
         for (Object[] data : objects)
         {
             model.addRow(data);

@@ -42,7 +42,7 @@ public class TanListPanel extends JPanel implements ActionListener{
         messageLabel = new JLabel("Tan List - Digite a respectiva senha para chave \n");
         OneTimePassword pass = OneTimePasswordDao.getRandomUnusedByUser(Auth.getInstance().getCurrentUser().getId());
         this.passKey = pass.getKey();
-        String key = String.valueOf(this.passKey);
+        String key = String.valueOf(this.passKey+1);
         tanKeyLabel = new JLabel(key);
         tanText = new JTextField(10);
         tanButton = new JButton("Enviar");

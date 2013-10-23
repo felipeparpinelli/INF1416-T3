@@ -25,11 +25,11 @@ import pucrio.infosec.helpers.Auth;
  * @author Arrais
  */
 public class RegistryDao {
-    public static ArrayList<Registry> searchEntriesBeforeDate(Date date) {
+    public static ArrayList<Registry> searchEntries() {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        String queryString = "from Registry Registro where date < '"+ date + "' order by date";
+        String queryString = "from Registry Registro order by id";
         Query query = session.createQuery(queryString);
         ArrayList<Registry> entries = (ArrayList<Registry>) query.list();
         transaction.commit();

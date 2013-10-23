@@ -15,9 +15,9 @@ public class Main {
     
     public static void main(String args[])
     {
+        RegistryDao.storeRegistry(1001);
         MainFrame mainframe = new MainFrame();
-        LoggerFrame logger = new LoggerFrame();
-        RegistryDao.storeRegistry(1001);        
+        LoggerFrame logger = new LoggerFrame();      
     }
     
 }

@@ -61,11 +61,20 @@ public class OneTimePasswordDao {
         transaction.commit();
         session.close();  
         
-        Random rand = new Random();
-        User user = UserDao.searchUserById(userId);
-        Integer key = rand.nextInt(user.getTanLength() - 1);
+        OneTimePassword pass = null;
+        Integer  key;
+        do{
+            Random rand = new Random();
+            User user = UserDao.searchUserById(userId);
+            key = rand.nextInt(user.getTanLength() - 1);
+            try{
+                pass = passwords.get(key);
+            }catch(IndexOutOfBoundsException ex){
+                pass = null;
+            }
+        }while(pass == null);
         
-        return passwords.get(key);
+        return pass;
     }
     
     public static OneTimePassword getByUserIdAndKey (int userId, int key){
