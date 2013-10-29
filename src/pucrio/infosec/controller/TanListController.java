@@ -31,6 +31,7 @@ public class TanListController {
                     pass.use();
                     RegistryDao.storeRegistry(4003, Auth.getInstance().getCurrentUser().getLogin());
                     RegistryDao.storeRegistry(4002, Auth.getInstance().getCurrentUser().getLogin());
+                    user.increaseAccessNumber();
                     return true;
                 }
                 else

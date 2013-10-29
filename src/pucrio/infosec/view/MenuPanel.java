@@ -46,7 +46,7 @@ public class MenuPanel extends JPanel implements ActionListener{
         loginText = new JLabel("{login}");
         groupText = new JLabel("{Grupo}");
         descriptionText = new JLabel("{Descricao}");
-        accessText = new JLabel("{Total de acessos do usuario}");
+        accessText = new JLabel(String.valueOf(Auth.getInstance().getCurrentUser().getAccessNumber()));
                 
         loginText.setText(Auth.getInstance().getCurrentUser().getLogin());        
         groupLabel = new JLabel("Grupo: ");

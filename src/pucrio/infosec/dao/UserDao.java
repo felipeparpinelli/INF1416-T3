@@ -26,8 +26,8 @@ public class UserDao {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        String queryString = "from User Usuarios where login like '%"
-                + user + "%' order by login";
+        String queryString = "from User Usuarios where login = '"
+                + user + "'";
         Query query = session.createQuery(queryString);
         User userFound = (User) query.uniqueResult();
         transaction.commit();
@@ -59,6 +59,8 @@ public class UserDao {
             user.setpasswordTries(0);
             user.setIsBlocked(false);
             user.setSalt(salt);
+            user.setAccessNumber(0);
+            user.setQueriesNumber(0);
             session.save(user);
             tx.commit();
         } catch (NoSuchAlgorithmException ex) {
@@ -77,5 +79,17 @@ public class UserDao {
         session.update(user);
         tx.commit();       
         session.close(); 
+    }
+    
+    public static Long countUsers(){
+ SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        String queryString = "select count(*) from User Usuarios";
+        Query query = session.createQuery(queryString);
+        Long userFound = (Long) query.uniqueResult();
+        transaction.commit();
+        session.close();
+        return userFound;
     }
 }

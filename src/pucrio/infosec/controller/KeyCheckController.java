@@ -22,6 +22,8 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+import pucrio.infosec.dao.RegistryDao;
+import pucrio.infosec.helpers.Auth;
 import pucrio.infosec.helpers.Security;
 
 /**
@@ -89,9 +91,9 @@ public class KeyCheckController {
             publicKeyFile = loadPublicKey();
             privateKey = security.decryptPrivateKey(privatekeyFile, passPhrase);
             publicKey = security.retrivePublicKey(publicKeyFile);
-            signatureContent = loadFile(indexPath + "index.asd");
-            envelopeContent = loadFile(indexPath + "index.env");
-            indexContent = loadFile(indexPath + "index.enc");
+            signatureContent = loadFile(indexPath + "/index.asd");
+            envelopeContent = loadFile(indexPath + "/index.env");
+            indexContent = loadFile(indexPath + "/index.enc");
 
             byte[] seed = security.getSeedEnvelope(envelopeContent, privateKey);
             Key key = security.getKeyFromSeed(seed);
@@ -112,9 +114,9 @@ public class KeyCheckController {
             publicKeyFile = loadPublicKey();
             privateKey = security.decryptPrivateKey(privatekeyFile, passPhrase);
             publicKey = security.retrivePublicKey(publicKeyFile);
-            signatureContent = loadFile(indexPath + arqName + ".asd");
-            envelopeContent = loadFile(indexPath + arqName + ".env");
-            indexContent = loadFile(indexPath + arqName + ".enc");
+            signatureContent = loadFile(indexPath + "/" + arqName + ".asd");
+            envelopeContent = loadFile(indexPath + "/" + arqName + ".env");
+            indexContent = loadFile(indexPath + "/" + arqName + ".enc");
 
             byte[] seed = security.getSeedEnvelope(envelopeContent, privateKey);
             Key key = security.getKeyFromSeed(seed);
@@ -136,21 +138,22 @@ public class KeyCheckController {
             publicKeyFile = loadPublicKey();
             privateKey = security.decryptPrivateKey(privatekeyFile, passPhrase);
             publicKey = security.retrivePublicKey(publicKeyFile);
-            signatureContent = loadFile(indexPath + arqName + ".asd");
-            envelopeContent = loadFile(indexPath + arqName + ".env");
-            indexContent = loadFile(indexPath + arqName + ".enc");
+            signatureContent = loadFile(indexPath + "/" + arqName + ".asd");
+            envelopeContent = loadFile(indexPath + "/" + arqName + ".env");
+            indexContent = loadFile(indexPath + "/" + arqName + ".enc");
 
             byte[] seed = security.getSeedEnvelope(envelopeContent, privateKey);
             Key key = security.getKeyFromSeed(seed);
             content = security.decryptPKCS5(indexContent, key);
 
             boolean result = security.checkSign(publicKey, signatureContent, content);
-            return result ? new String(content, "UTF-8") : "NOT OK";
+                           
+            return result ? "OK" : "NOT OK";
             //TODO
         } catch (Exception e) {
             e.printStackTrace();
         }
         
-        return "Error!";
+        return "Error";
     }
 }

@@ -97,7 +97,7 @@ public class SearchFolderPanel extends JPanel implements ActionListener {
         nameText.setText(Auth.getInstance().getCurrentUser().getName());
         
 
-        totalSearchText = new JLabel("{Total de consultas do usuario}");
+        totalSearchText = new JLabel(String.valueOf(Auth.getInstance().getCurrentUser().getQueriesNumber()));
         pathPulicKeyLabel = new JLabel("Caminho da chave publica: ");
         pathPrivateKeyLabel = new JLabel("Caminho da chave privada: ");
         passphraseLabel = new JLabel("Frase secreta da chave privada: ");
@@ -176,7 +176,6 @@ public class SearchFolderPanel extends JPanel implements ActionListener {
             case "Carregar chave":
                 KeyCheckController keyCheck = new KeyCheckController(pathPrivateKeyText.getText(), passphraseText.getText(), pathPulicKeyText.getText());
                 try {
-
                     boolean isValidKey = keyCheck.checkPrivateKey();
                     if (isValidKey == true) {
                         folderPathText.setEditable(true);
@@ -186,19 +185,26 @@ public class SearchFolderPanel extends JPanel implements ActionListener {
                     }
 
                 } catch (FileNotFoundException ex) {
+                    JOptionPane.showMessageDialog(mainFrame, "Arquivo não encontrado ", "Erro", JOptionPane.ERROR_MESSAGE);
                     Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
                     Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(mainFrame, "Chave inválida", "Erro", JOptionPane.ERROR_MESSAGE);
                 } catch (NoSuchPaddingException ex) {
                     Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(mainFrame, "Chave inválida", "Erro", JOptionPane.ERROR_MESSAGE);
                 } catch (NoSuchAlgorithmException ex) {
                     Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(mainFrame, "Chave inválida", "Erro", JOptionPane.ERROR_MESSAGE);
                 } catch (InvalidKeyException ex) {
                     Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(mainFrame, "Chave inválida", "Erro", JOptionPane.ERROR_MESSAGE);
                 } catch (BadPaddingException ex) {
                     Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(mainFrame, "Chave inválida", "Erro", JOptionPane.ERROR_MESSAGE);
                 } catch (IllegalBlockSizeException ex) {
                     Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(mainFrame, "Chave inválida", "Erro", JOptionPane.ERROR_MESSAGE);
                 } catch (InvalidKeySpecException ex) {
                     Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (SignatureException ex) {
@@ -207,9 +213,12 @@ public class SearchFolderPanel extends JPanel implements ActionListener {
                 break;
             case "Listar":
                 
-                
+                Auth.getInstance().getCurrentUser().increaseQueriesNumber();
                 KeyCheckController listFiles = new KeyCheckController(pathPrivateKeyText.getText(), pathPulicKeyText.getText(), folderPathText.getText(), "");
                 String isValid = listFiles.getIndexContent(passphraseText.getText());
+                
+                if(isValid.equals("Error!") || isValid.equals("NOT OK"))
+                    JOptionPane.showMessageDialog(mainFrame, "Não pode decriptar o arquivo de index", "Erro", JOptionPane.ERROR_MESSAGE);
                         
                 model = new DefaultListModel();
 
@@ -222,17 +231,24 @@ public class SearchFolderPanel extends JPanel implements ActionListener {
                     Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
+                // Monta lista a ser exibida, verificando o status do arquivo
                 for (int i = 0; i<array.size(); i++)
                 {
                     String n = array.get(i);
-                    list.add(n);
+                    String [] a = n.split(" ");
+                    String nomeFake = a[1];
+                    String statusArq = listFiles.getFileString(passphraseText.getText(), nomeFake);
+                    if(statusArq.equals("Error"))
+                        statusArq = "NOT OK";
+                    String nomeFinal = n + " " + statusArq;
+                    list.add(nomeFinal);
                 }
 
                 for (int i = 0; i < array.size(); i++) {
                     model.add(i, array.get(i));
                 }
 
-               this.add(list);
+                this.add(list);
                 list.setVisible(true);
                 list.addItemListener(new ItemListener() {
 
@@ -243,15 +259,29 @@ public class SearchFolderPanel extends JPanel implements ActionListener {
                 String [] a = list.getSelectedItem().split(" ");
                 String nomeSecreto = a[0];
                 String nomeFake = a[1];
-                Auth.getInstance().addPath(nomeSecreto);
+                Auth.getInstance().addPath(folderPathText.getText() + "/" + nomeSecreto);
                 RegistryDao.storeRegistryWithFile(8003, Auth.getInstance().getCurrentUser().getLogin(), nomeSecreto);
-                byte[] isValid = listFiles.getFileContent(passphraseText.getText(), nomeFake);
+                byte[] contentFile = listFiles.getFileContent(passphraseText.getText(), nomeFake);
+                String statusArq = listFiles.getFileString(passphraseText.getText(), nomeFake);
                 
-                System.out.println(isValid);
+                if(statusArq.equals("NOT OK")){
+                    RegistryDao.storeRegistryWithFile(8007, Auth.getInstance().getCurrentUser().getLogin(), nomeSecreto);
+                }
+                else
+                {
+                    RegistryDao.storeRegistryWithFile(8005, Auth.getInstance().getCurrentUser().getLogin(), nomeSecreto);
+                }
+                
                 try {
-                    try (FileOutputStream output = new FileOutputStream(folderPathText.getText() + nomeSecreto)) {
-                        output.write(isValid);
-                    } 
+                    if(!statusArq.equals("Error")){                       
+                        try (FileOutputStream output = new FileOutputStream(folderPathText.getText() + "/" + nomeSecreto)) {
+                                output.write(contentFile);
+                                RegistryDao.storeRegistryWithFile(8004, Auth.getInstance().getCurrentUser().getLogin(), nomeSecreto);
+                        } 
+                    }
+                    else{
+                        RegistryDao.storeRegistryWithFile(8006, Auth.getInstance().getCurrentUser().getLogin(), nomeSecreto);
+                    }
                     
                 } catch (IOException ex) {
                     Logger.getLogger(SearchFolderPanel.class.getName()).log(Level.SEVERE, null, ex);

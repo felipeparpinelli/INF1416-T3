@@ -15,9 +15,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import pucrio.infosec.controller.UserRegistrationController;
 import pucrio.infosec.dao.RegistryDao;
+import pucrio.infosec.dao.UserDao;
 import pucrio.infosec.helpers.Auth;
 import pucrio.infosec.model.GroupName;
 import pucrio.infosec.model.User;
@@ -48,10 +50,10 @@ public class UserRegistrationPanel extends JPanel implements ActionListener {
     private JTextField nameRegText;
     private JTextField loginRegText;
     private JComboBox groupRegText;
-    private JTextField pwdRegText;
-    private JTextField confirmPwdRegText;
     private JTextField pathTanRegText;
     private JTextField lengthTanRegText;
+    private JPasswordField pwdRegText;
+    private JPasswordField confirmPwdRegText;
     private JButton regButton;
     private JButton backButton;
     String[] Groups = {"Selecione", GroupName.ADMINISTRATOR.toString(), GroupName.USER.toString()};
@@ -74,7 +76,7 @@ public class UserRegistrationPanel extends JPanel implements ActionListener {
         groupText.setText(Auth.getInstance().getCurrentUser().getGroupName().toString());
         nameText = new JLabel("{Nome}");
         nameText.setText(Auth.getInstance().getCurrentUser().getName());
-        totalUserText = new JLabel("{Total de usuarios no sistema}");
+        totalUserText = new JLabel(String.valueOf(UserDao.countUsers()));
 
         nameRegLabel = new JLabel("Nome do Usuário: ");
         loginRegLabel = new JLabel("Login Name: ");
@@ -87,8 +89,8 @@ public class UserRegistrationPanel extends JPanel implements ActionListener {
         nameRegText = new JTextField(30);
         loginRegText = new JTextField(20);
         groupRegText = new JComboBox(Groups);
-        pwdRegText = new JTextField(6);
-        confirmPwdRegText = new JTextField(6);
+        pwdRegText = new JPasswordField(6);
+        confirmPwdRegText = new JPasswordField(6);
         pathTanRegText = new JTextField(30);
         lengthTanRegText = new JTextField(2);
 
@@ -152,15 +154,16 @@ public class UserRegistrationPanel extends JPanel implements ActionListener {
                     userReg.saveUser(user);
                     userReg.createTanList(pathTanRegText.getText(), lengthTanRegText.getText(), loginRegText.getText(), user.getId());
                     JOptionPane.showMessageDialog(mainFrame, "Usuário criado com sucesso", "Erro", JOptionPane.PLAIN_MESSAGE);
-                }
-                else
-                {
-                    JOptionPane.showMessageDialog(mainFrame, "Dados incorretos, por favor verifique os campos", "Erro", JOptionPane.ERROR_MESSAGE);
-                    UserRegistrationPanel userRegPanel = new UserRegistrationPanel(mainFrame);
-                    mainFrame.setContentPane(userRegPanel);
+                    mainFrame.setContentPane(new UserRegistrationPanel(mainFrame));
                     mainFrame.repaint();
                     mainFrame.validate();
                 }
+                
+                else
+                {
+                    JOptionPane.showMessageDialog(mainFrame, "Dados incorretos, por favor verifique os campos", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+                
                 
                 break;
             case "Voltar para o menu":

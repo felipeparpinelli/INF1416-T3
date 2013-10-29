@@ -59,7 +59,7 @@ public class ExitPanel extends JPanel implements ActionListener{
 
         nameText = new JLabel("{Nome}");
         nameText.setText(Auth.getInstance().getCurrentUser().getName());
-        accessText = new JLabel("{Total de acessos do usuario}");
+        accessText = new JLabel(String.valueOf(Auth.getInstance().getCurrentUser().getAccessNumber()));
         
         exitLabel = new JLabel("Saida do sistema:");
         exitMessageLabel = new JLabel("Pressione o Botão Sair para apagar os arquivos decriptados e \n" +
@@ -98,7 +98,7 @@ public class ExitPanel extends JPanel implements ActionListener{
                 List<String> array = new ArrayList<>();
                 RegistryDao.storeRegistry(1002, Auth.getInstance().getCurrentUser().getLogin());
                 for (String path : Auth.getInstance().getPaths()){              
-                    File file = new File("C:\\certs\\" + path);
+                    File file = new File(path);
                     file.delete();
                     RegistryDao.storeRegistry(9004, Auth.getInstance().getCurrentUser().getLogin());
                 }

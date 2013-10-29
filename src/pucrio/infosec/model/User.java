@@ -66,10 +66,10 @@ public class User {
     private String accessControl;
     
     @Column(name = "numberAccesses")
-    private String accessNumber;
+    private int accessNumber;
     
     @Column(name = "numberQueries")
-    private String queriesNumber;
+    private int queriesNumber;
     
     @Column(name = "groupName")
     @Enumerated(EnumType.STRING)
@@ -147,7 +147,7 @@ public class User {
         this.accessControl = accessControl;
     }
 
-    public String getAccessNumber() {
+    public int getAccessNumber() {
         return accessNumber;
     }
     
@@ -167,15 +167,27 @@ public class User {
         this.isBlocked = n;
     }
 
-    public void setAccessNumber(String accessNumber) {
+    public void setAccessNumber(int accessNumber) {
         this.accessNumber = accessNumber;
     }
+    
+    public void increaseAccessNumber() {
+        this.setAccessNumber(this.getAccessNumber() + 1);
+        this.update(); 
+        
+    }
+    
+    public void increaseQueriesNumber() {
+        this.setQueriesNumber(this.getQueriesNumber() + 1);
+        this.update(); 
+        
+    }
 
-    public String getQueriesNumber() {
+    public int getQueriesNumber() {
         return queriesNumber;
     }
 
-    public void setQueriesNumber(String queriesNumber) {
+    public void setQueriesNumber(int queriesNumber) {
         this.queriesNumber = queriesNumber;
     }
     
